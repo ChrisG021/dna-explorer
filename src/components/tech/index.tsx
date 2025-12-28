@@ -1,4 +1,4 @@
-import { SiCss3, SiDocker, SiFirebase, SiHtml5, SiJavascript, SiNestjs, SiNextdotjs, SiNodedotjs, SiPostgresql, SiPython, SiReact, SiSpringboot, SiSupabase, SiTailwindcss } from "react-icons/si";
+import { SiCss3, SiDocker, SiFirebase, SiHtml5, SiJavascript, SiNestjs, SiNextdotjs, SiNodedotjs, SiPostgresql, SiPython, SiReact, SiSpringboot, SiSupabase, SiTailwindcss, SiTypescript } from "react-icons/si";
 import "./style.css";
 import { DiJava } from "react-icons/di";
 import { GrMysql } from "react-icons/gr";
@@ -25,10 +25,10 @@ export default function Technology() {
         );
     }
     return (
-        <div className="tech flex flex-col min-h-screen text-(--primary-color) justify-center items-center gap-15">
+        <div className="tech flex flex-col min-h-screen w-full text-(--primary-color) justify-center items-center gap-15 overflow-hidden">
             <h2>Minhas tecnologias</h2>
-            <div className="flex flex-col w-full gap-5  ">
-                <h3>FrontEnd</h3>
+            <div className="flex flex-col w-full gap-5 ">
+                <h3 className="ml-2">FrontEnd</h3>
                 <div className="carrousel">
                     <div aria-hidden className="group" >
                         <div className="carrousel-item"><CardCarrousel icon={<SiReact className="lg:text-4xl  text-(--accent-3) " />} order={1} title="React" /></div>
@@ -57,6 +57,7 @@ export default function Technology() {
                         <div className="carrousel-item"><CardCarrousel icon={<SiPython className="lg:text-4xl  text-(--accent-3) " />} order={3} title="Python" /></div>
                         <div className="carrousel-item"><CardCarrousel icon={<DiJava className="lg:text-4xl  text-(--accent-3) " />} order={4} title="Java" /></div>
                         <div className="carrousel-item"><CardCarrousel icon={<SiSpringboot className="lg:text-4xl  text-(--accent-3) " />} order={5} title="Spring Boot" /></div>
+                        <div className="carrousel-item"><CardCarrousel icon={<SiTypescript className="lg:text-4xl  text-(--accent-3) " />} order={5} title="TypeScript" /></div>
                     </div>
                     <div aria-hidden className="group backend" >
                         <div className="carrousel-item"><CardCarrousel icon={<SiNodedotjs className="lg:text-4xl  text-(--accent-3) " />} order={1} title="NodeJS" /></div>
@@ -64,6 +65,7 @@ export default function Technology() {
                         <div className="carrousel-item"><CardCarrousel icon={<SiPython className="lg:text-4xl  text-(--accent-3) " />} order={3} title="Python" /></div>
                         <div className="carrousel-item"><CardCarrousel icon={<DiJava className="lg:text-4xl  text-(--accent-3) " />} order={4} title="Java" /></div>
                         <div className="carrousel-item"><CardCarrousel icon={<SiSpringboot className="lg:text-4xl  text-(--accent-3) " />} order={5} title="Spring Boot" /></div>
+                        <div className="carrousel-item"><CardCarrousel icon={<SiTypescript className="lg:text-4xl  text-(--accent-3) " />} order={5} title="TypeScript" /></div>
                     </div>
                 </div>
             </div>

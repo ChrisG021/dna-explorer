@@ -1,9 +1,4 @@
-.tech{
-background: radial-gradient(
-    circle at center,
-    rgba(59,130,246,0.08),
-    transparent 60%
-  );}
+
 .tech h2{
     font-size: var(--subtitle);
     font-weight: bold;
@@ -16,6 +11,7 @@ background: radial-gradient(
 }
 .carrousel {
     display: flex;
+    border-radius: 20px;
     width: 100%;
 }
 
@@ -24,6 +20,9 @@ background: radial-gradient(
     gap: 1em;
     padding-right: 1em;
     animation: spin 14s linear infinite;
+}
+.group.backend {
+    animation: spin 12ss linear infinite;
 }
 
 .carrousel-item {
@@ -51,6 +50,11 @@ background: radial-gradient(
     /* padding-right: 100px;
     gap: 100px; */
     animation: spin 12s linear infinite;
+}
+@media (width>=1900px){
+    .tech{
+        margin-left: -30px;
+    }
 }
 }
 @keyframes spin {

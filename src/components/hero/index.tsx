@@ -1,5 +1,6 @@
 import React from "react";
 import "./style.css";
+import Link from "next/link";
 export default function Hero() {
     return (
         <div className="w-full hero ">
@@ -15,7 +16,7 @@ export default function Hero() {
                 <div className="hero-buttons-container">
                     <span className="hero-buttons">
                         <button className="button-1 animate">Entre em contato</button>
-                        <button className="button-2 animate">Me conheça</button>
+                        <Link href={'#about'} className="text-center h-full button-2 animate">Me conheça</Link>
                     </span>
                 </div>
             </div>

@@ -1,0 +1,19 @@
+.mid-section{
+    transition: all 400ms ease-in-out;
+    transform: translateX(-100vw);          
+}
+.pos-0{
+    transform: translateX(0vw);
+}
+.pos-1{
+    transform: translateX(-100vw);
+}
+.pos-2{
+    transform: translateX(-200vw);
+}
+/* translateX(--current-index *-100%) */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 11px; /* padrão é grande */
+}
+

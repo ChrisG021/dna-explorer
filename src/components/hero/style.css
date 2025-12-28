@@ -47,6 +47,7 @@
     display: flex;
     gap: 20px;
     flex-direction: row;
+    align-items: center;
     justify-content: space-between;
 }
 .button-1{
@@ -58,6 +59,7 @@
     cursor: pointer;
 }
 .button-2{
+    padding: 10px;
     padding-inline: 10px;
     border-radius:10px;
     color: var(--background);

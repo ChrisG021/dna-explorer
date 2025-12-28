@@ -29,15 +29,6 @@ export default function Header({language,setLanguage}:HeaderProps) {
                 </Link>
             </ul>
 
-            <div className="max-md:flex items-center outline-bars hidden">
-                <HiOutlineBars3 />
-            </div>
-
-            <ul className="bounce-in-top flex menu max-md:hidden">
-                <Link href={"#"} className="menu-items  animate-e">Home</Link>
-                <Link href={"#about"} className="menu-items  animate-m">About</Link>
-                <Link href={"#"} className="menu-items  animate-d">Contact</Link>
-            </ul>
 
             <div className=" bounce-in-top flex language max-md:hidden" onClick={() => setLanguage(toogleLanguage(language))}>
                 <div className="language-item">

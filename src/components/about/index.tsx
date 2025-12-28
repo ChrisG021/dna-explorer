@@ -8,9 +8,7 @@ export default function About(){
     return(
         <div className={`about ${fromMove} flex flex-row max-md:flex-col gap-10 min-h-screen text-(--primary-color) justify-center items-center`}>
             
-            <div onClick={()=>{setFromMove("left")}} className="arrow-left max-md:hidden cursor-pointer text-(--primary-color)">
-                <FaArrowAltCircleLeft className="max-md:text-2xl text-4xl"/>
-            </div>
+
             {/* imagem dentro terminal */}
             {/* <div  className="image-side flex flex-col justify-center lg:items-center lg:max-w-[50%] w-full">
                 <div className="terminal-img font-mono">
@@ -47,9 +45,6 @@ export default function About(){
                     <p className="max-md:text-sm">Apenas um jovem eternamente apaixonado por transformar linhas de código em soluções <span>práticas</span>, <span>responsivas</span> e <span>ágeis</span>. Movido pela curiosidade e pelo desejo constante de evolução, encaro cada desafio como uma oportunidade de aprendizado, independentemente da complexidade ou da demanda estabelecida. Acredito que a tecnologia deve simplificar problemas reais, gerar impacto positivo e entregar valor através de soluções bem estruturadas, eficientes e pensadas para o usuário.</p>
                     <span    className="max-md:text-sm">Para saber mais, recomendo dar uma olhada no terminal...</span>
                 </div>
-            </div>
-            <div onClick={()=>{setFromMove("right")}} className="arrow-right max-md:hidden cursor-pointer text-(--primary-color)">  
-                <FaArrowAltCircleRight className="max-md:text-2xl text-4xl"/>
             </div>
         </div>
     );

@@ -33,7 +33,8 @@ export default function VsCodeComponent(){
             '-> Liderança',
             '-> Boa oratória e dialética ',
             '-> Trabalho em equipe',
-            '-> Sensibilidade'
+            '-> Sensibilidade e empatia com os colegas de trabalho',
+            '-> Ágil e direto em resolução de demandas'
         ],
         curious:()=>[
             '-- CURIOSIDADES -- ',
@@ -99,11 +100,7 @@ export default function VsCodeComponent(){
             terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
         }
     },[history])
-    useEffect(()=>{
-        if(inputRef.current){
-            inputRef.current.focus();
-        }
-    },[])
+
     return(
         <div className="flex relative items-center justify-center  rounded-2xl">
           {/*background pattern    */}
