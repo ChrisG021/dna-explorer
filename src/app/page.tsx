@@ -9,27 +9,20 @@ import Technology from "@/components/tech";
 import Projects from "@/components/projects";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
-
-
 import './style.css';
 import Introduction from "@/components/introduction";
-export default function Home() {
-  const [currentIndex, setCurrentIndex] = useState<number>(1);
-  const [language, setLanguage] = useState<"pt" | "en">("pt")
-  const calcIndex= (index:number,direction:string)=>{
-    if(direction=="right" && index<2){
-      console.log(index,direction);
-      setCurrentIndex(index+=1);
-    }    
-    if(direction=="left" && index>0){
-      console.log(index,direction);
-      setCurrentIndex(index-=1);
-    }
+import DevInvoicePage from "@/components/devInVoice";
+import ContactPopup from "@/components/contactPopup";
+import ScrollPage from "@/components/scroll/scroll";
+import ThreeGallery from "@/components/gallery";
+import ContactSection from "@/components/contactSection";
 
-  }
+import Footer from "@/components/footer";
+export default function Home() {
+  const [callPopup, setCallPopup] = useState<boolean>(false);
+  const [language, setLanguage] = useState<"pt" | "en">("pt");
   useEffect(() => {
     AOS.init({
       easing: "ease",
@@ -38,45 +31,61 @@ export default function Home() {
     });
   }, []);
   return (
-    <div className="flex flex-col w-full max-md:gap-y-10 overflow-hidden">
+    // flex flex-col w-full max-md:gap-y-10 overflow-hidden
+    <div className="flex flex-col w-full max-md:gap-y-10">
 
       {/* home */}
-      <div className="p-5 lg:p-8">
+      <div className=" p-5 lg:p-8">
         <Header language={language} setLanguage={setLanguage} />
-        <Hero/>
+        <Hero setCallPopup={setCallPopup} />
       </div>
 
-      <div className="p-5 lg:p-8">
-        <Introduction/>
+      <div className="p-5 lg:p-8" id="introduction">
+        <Introduction />
       </div>
+
       {/* about/projects/ tecnologias */}
-      <div className="flex"  id="about">
-          <Swiper
+      <div className="flex">
+        <Swiper
           initialSlide={1}//segundo slide
           navigation={true}
           modules={[Navigation]}
-            style={{
-              "--swiper-navigation-size": "25px",
-            }}
-          >
-            <SwiperSlide  className="overflown-hidden min-w-screen">            
-                <Projects/>
-            </SwiperSlide>
-            <SwiperSlide className="overflown-hidden  min-w-screen p-5 lg:p-8">
-                {/* CHECK e responsivo */}
-                <About/>
-                </SwiperSlide>
-            <SwiperSlide className="overflown-hidden  min-w-screen">
-                {/* CHECK E RESPONSIVO */}
-                <Technology/>
-            </SwiperSlide>
-          </Swiper> 
+          style={{
+            "--swiper-navigation-size": "25px",
+          }}
+        >
+          <SwiperSlide className="overflown-hidden min-w-screen">
+            {/* CHECK e responsivo */}
+            <Projects />
+          </SwiperSlide>
+          <SwiperSlide className="overflown-hidden  min-w-screen p-5 lg:p-8">
+            {/* CHECK e responsivo */}
+            <About />
+          </SwiperSlide>
+          <SwiperSlide className="overflown-hidden  min-w-screen">
+            {/* CHECK E RESPONSIVO */}
+            <Technology />
+          </SwiperSlide>
+        </Swiper>
       </div>
 
-      {/* Porque fazer seu projeto comigo */}s
+      {/* <div>
+        <DevInvoicePage />
+      </div> */}
+      <div className="w-full min-h-screen relative">
+        <ScrollPage />
+      </div>
 
       {/* Contato */}
-      
+      <div>
+        <ContactSection/>
+      </div>
+
+      <div>
+        <Footer />
+      </div>
+      {/* contactPopup */}
+      {callPopup && (<ContactPopup setCallPopup={setCallPopup} />)}
     </div>
   );
 }

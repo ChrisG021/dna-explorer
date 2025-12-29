@@ -1,9 +1,10 @@
 import React from "react";
 import "./style.css";
 import Link from "next/link";
-export default function Hero() {
+import ContactPopup from "../contactPopup";
+export default function Hero({setCallPopup}:any) {
     return (
-        <div className="w-full hero ">
+        <div className="relative w-full hero ">
             <div className="hero-title-container flex">
                 <span className="hero-name animate-pulse">&lt;CG/&gt;</span>
                 <h1 className="hero-title">Desenvolvedor <br />FullStack</h1>
@@ -15,8 +16,8 @@ export default function Hero() {
                 </div>
                 <div className="hero-buttons-container">
                     <span className="hero-buttons">
-                        <button className="button-1 animate">Entre em contato</button>
-                        <Link href={'#about'} className="text-center h-full button-2 animate">Me conheça</Link>
+                        <button onClick={()=>setCallPopup(true)} className="button-1 animate">Entre em contato</button>
+                        <Link href={'#introduction'} className="text-center h-full button-2 animate">Me conheça</Link>
                     </span>
                 </div>
             </div>

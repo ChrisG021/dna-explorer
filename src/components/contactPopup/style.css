@@ -1,0 +1,61 @@
+
+.contactpopup{
+    border: 2px solid var(--foreground);
+    max-width: 90vw;
+    width: 100%;
+    padding: 10px;
+}
+.contactpopup input{
+    outline: none;
+}.contactpopup p{
+    font-size: 0.8em;
+    text-transform: uppercase;
+}
+.input-container{
+    padding-block: 10px;
+    border-bottom: 2px solid #e5e5e548;
+}
+.input-container input{
+    width: 100%;
+}
+.input-container:focus-within {
+    border-color: var(--foreground);
+}
+.input-container textarea{
+    resize: none; /* Disables resizing for all textareas */
+}
+.input-container textarea::-webkit-scrollbar{
+    overflow: hidden;
+}
+.contactpopup h1{
+    font-size: 1.5em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+@media (width >=720px) {
+    .contactpopup{
+        max-width: 70vw;
+    }
+}
+
+@media (width >=1080px) {
+    
+    .contactpopup h1{
+    font-size: 2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    }
+    .contactpopup{
+        max-width: 50vw;
+    }
+
+}
+
+@media (width >=1280px) {
+
+    .contactpopup{
+        max-width: 35vw;
+    }
+
+}
