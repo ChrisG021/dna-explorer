@@ -45,10 +45,10 @@ export default function ContactPopup({setCallPopup}:any){
                         </div>
                     </div>
                     <div>
-                        <button onClick={()=>setCallPopup(false)} className="flex items-center gap-5 border px-5 py-3 lg:px-8 lg:py-4 border-(--foreground) transition-all ease-in  hover:bg-(--foreground) hover:text-(--primary-color)">
+                        <a href="mailto:christopheguerra67@gmail.com" onClick={()=>setCallPopup(false)} className="flex items-center gap-5 w-fit border px-5 py-3 lg:px-8 lg:py-4 border-(--foreground) transition-all ease-in  hover:bg-(--foreground) hover:text-(--primary-color)">
                             <span>enviar mensagem</span>
                             <FaPaperPlane/>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

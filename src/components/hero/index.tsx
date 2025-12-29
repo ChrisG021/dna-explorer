@@ -3,7 +3,7 @@ import "./style.css";
 import Link from "next/link";
 export default function Hero({setCallPopup}:any) {
     return (
-        <div className="w-full hero ">
+        <div className="w-full hero overflow-hidden">
             {/* <div className="hero-title-container flex">
                 <span className="hero-name animate-pulse">&lt;CG/&gt;</span>
                 <h1 className="hero-title">Desenvolvedor <br />FullStack</h1>
