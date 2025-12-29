@@ -16,6 +16,10 @@ export const metadata: Metadata = {
   
   title: "Christophe Guerra | Desenvolvedor FullStack",
   description: "My personal Portifolio",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+  }
 };
 
 export default function RootLayout({

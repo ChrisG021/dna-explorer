@@ -13,7 +13,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import './style.css';
 import Introduction from "@/components/introduction";
-import DevInvoicePage from "@/components/devInVoice";
 import ContactPopup from "@/components/contactPopup";
 import ScrollPage from "@/components/scroll/scroll";
 import ThreeGallery from "@/components/gallery";
