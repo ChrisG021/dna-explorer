@@ -53,8 +53,8 @@ export default function Home() {
           navigation={true}
           modules={[Navigation]}
           style={{
-            "--swiper-navigation-size": "25px",
-          }}
+            "--swiper-navigation-size": "25px"
+          } as any}
         >
           <SwiperSlide className="overflown-hidden min-w-screen">
             {/* CHECK e responsivo */}
