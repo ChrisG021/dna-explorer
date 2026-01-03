@@ -2,14 +2,33 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Main colors */
+  --color-white: #ffffff;
+  --color-black: #000000;
 
-  --accent-1:#e5e5e5;
+  /* Neutral tones */
+  --color-gray-light: #f5f5f5;
+  --color-gray-medium: #cccccc;
+  --color-gray-dark: #333333;
+
+  /* Accent color (use sparingly) */
+  --color-accent: #2563eb; /* modern blue */
+  --color-accent-hover: #1e40af;
+
+  /* Text colors */
+  --text-primary: var(--color-black);
+  --text-secondary: var(--color-gray-dark);
+  --text-inverse: var(--color-white);
+
+  /* Backgrounds */
+  --background-primary: var(--color-white);
+  --background-secondary: var(--color-gray-light);
 }
 
+
+
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--background-primary);
+  color: var(--text-primary);
   font-family: "Roboto", sans-serif;
 }
