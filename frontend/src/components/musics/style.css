@@ -1,0 +1,90 @@
+.music-cards {
+    display: flex;
+    justify-content: center;
+    flex-flow:  wrap; /* permite quebrar linhas */
+    gap: 10px;
+    width: 100%;
+}
+
+.music-cards .card-container{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-black);
+    color: var(--text-inverse);
+    padding: 10px;
+    border-radius:10px;
+    flex: 1 1 250px; /* 1 = grow, 1 = shrink, 200px = base mínima */
+    max-width: 300px;
+    height: 25vh;
+    gap: 10px;
+    box-sizing: border-box; 
+}
+.music-cards .img-card{
+    position: relative;
+    width: 100%;
+    background-color: #fff;
+    max-height: 75%;
+    height: 100%;
+}
+/* .img-card::after{
+    position: absolute;
+    content: "";
+    background-color: var(--color-accent);
+    border-radius: 10px;
+    width: 10%;vai ter uma variavel que controla isso
+    height: 2px;
+    bottom: 0;
+    left: 0;
+} */
+.card-container h3{
+    font-weight: bold;
+}
+.card-container p{
+    font-size: 15px;
+}
+.description{
+    width: 100%;
+    display: flex;
+    align-items: center; justify-content: space-between;
+}
+.description .icon{
+    display: flex;
+    flex-direction: row; 
+    gap: 10px;
+}
+.description  .icon *{
+    font-size: 25px;
+    cursor: pointer;
+}
+.description .icon:active{
+    background-color: #fff;
+}
+@media (max-width:800px) {
+    .music-cards .card-container{
+    flex: 0 1 200px; 
+}
+}
+@media (max-width: 640px) {
+    .music-cards {
+        justify-content: center; /* centraliza os cards */
+        flex-wrap: wrap;         /* continua permitindo quebrar linhas */
+    }
+
+    .music-cards .card-container {
+        flex-direction: row;
+        flex: 1; 
+        min-width: 200px;
+        height: 10vh;
+
+    }
+    .music-cards .img-card{
+        width: 20%;
+        border-radius: 5px;
+        max-height: 100%;
+    }
+    .description{
+        width: 80%;
+        display: flex;
+        align-items: center; justify-content: space-between;
+    }
+}
