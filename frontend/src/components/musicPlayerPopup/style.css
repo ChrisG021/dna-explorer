@@ -1,0 +1,21 @@
+.player-description h3{
+    font-size: 20px;
+    font-weight: bold;
+}
+.progress-bar{
+    position: relative;
+    height: 0.5vh;
+    background-color: var(--color-gray-dark);
+    border-radius: 5px;
+}
+.progress-bar::after{
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 40%;
+    border-radius: 5px;
+    background-color: var(--color-accent);
+}
+.musicPlayerPopup{
+    border: 1px solid #ffffff20;
+}

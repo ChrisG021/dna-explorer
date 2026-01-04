@@ -3,146 +3,90 @@ import { FaPause, FaPlay } from "react-icons/fa";
 import { useState } from "react";
 import { VscThumbsupFilled } from "react-icons/vsc";
 import { CiCirclePlus } from "react-icons/ci";
+import { FaCirclePlus } from "react-icons/fa6";
+//armazena musicas
+interface likedMusic{
+    id_music:string,
+    name_music:string
+}
 
-export default function Musics(){
-    const [isPlaying, setIsPlaying] = useState({ id: 0, playing: false });
-    const handlePlaying = (id: number) => {
-        if (isPlaying.id === id) {
-            // toggle play/pause for the same id
-            setIsPlaying({ id: id, playing: !isPlaying.playing });
-        } else {
-            // switch to new id and play
-            setIsPlaying({ id: id, playing: true });
+interface musicProps{
+    handlePlaying:(id:string)=>void,
+    isPlaying: {
+        trackId:string,
+        playing:boolean
+    },
+    musics:{
+        items: Array<object>;
+        total: number;
+        limit: number;
+        offset: number;
+    }
+}
+
+export default function Musics({handlePlaying,isPlaying,musics}:musicProps){
+    const MAX = 7;
+   
+    const [addedMusics,setAddedMusics] = useState<Array<likedMusic>>([])
+    const [likedMusics,setLikedMusics] = useState<Array<string>>([])
+
+
+    const handleAddMusic = (id: string, name: string) => {
+        // Verifica se a música já existe
+        const exist = addedMusics.some(m => m.id_music === id);
+        const isFull = addedMusics.length >= MAX;
+
+        if (!exist && !isFull) {
+            //pega o conteudo que ja ta e so adc um novo e tb 
+            setAddedMusics(prev => [...prev, { id_music: id, name_music: name }]);
+            handleLikedMusics(id);
+            console.log("LOG:musica com id ("+id+") foi adicionado");       
+            
+        } else if(exist){
+            //vai fazer uma filtragem e retirar do array aquele que for igual a esse id
+            console.log("LOG:musica com id ("+id+") sendo retirada");          
+            setAddedMusics(prev => prev.filter(m => m.id_music !== id));
+
+        } else if (isFull) {
+            console.warn("Limite máximo de músicas atingido");
         }
     };
-const musics= {
-      items: [
-        {
-          id: "track_001",
-          name: "Sunshine - Ao Vivo",
-          duration_ms: 214000,
-          popularity: 78,
-          explicit: false,
-          album: {
-            id: "album_001",
-            name: "Delacruz Ao Vivo",
-            release_date: "2023-09-15",
-            images: [{ url: "https://picsum.photos/640?1" }]
-          },
-          artists: [{ id: "artist_001", name: "Delacruz" }]
-        },
-        {
-          id: "track_002",
-          name: "Afrodite",
-          duration_ms: 198000,
-          popularity: 82,
-          explicit: false,
-          album: {
-            id: "album_002",
-            name: "Nonsense, Vol. 1",
-            release_date: "2022-05-10",
-            images: [{ url: "https://picsum.photos/640?2" }]
-          },
-          artists: [{ id: "artist_002", name: "BK'" }]
-        },
-        {
-          id: "track_003",
-          name: "Teu Popô",
-          duration_ms: 176000,
-          popularity: 75,
-          explicit: true,
-          album: {
-            id: "album_003",
-            name: "Ladrão",
-            release_date: "2019-09-13",
-            images: [{ url: "https://picsum.photos/640?3" }]
-          },
-          artists: [{ id: "artist_003", name: "Djonga" }]
-        },
-        {
-          id: "track_004",
-          name: "Amor Pra Depois",
-          duration_ms: 203000,
-          popularity: 69,
-          explicit: false,
-          album: {
-            id: "album_004",
-            name: "Amor Pra Depois",
-            release_date: "2021-02-14",
-            images: [{ url: "https://picsum.photos/640?4" }]
-          },
-          artists: [{ id: "artist_004", name: "Giulia Be" }]
-        },
-        {
-          id: "track_005",
-          name: "Leão",
-          duration_ms: 189000,
-          popularity: 88,
-          explicit: false,
-          album: {
-            id: "album_005",
-            name: "Ouro",
-            release_date: "2020-11-20",
-            images: [{ url: "https://picsum.photos/640?5" }]
-          },
-          artists: [{ id: "artist_005", name: "Marília Mendonça" }]
-        },
-        {
-          id: "track_006",
-          name: "Várias Queixas",
-          duration_ms: 221000,
-          popularity: 90,
-          explicit: false,
-          album: {
-            id: "album_006",
-            name: "Tim Maia",
-            release_date: "1981-01-01",
-            images: [{ url: "https://picsum.photos/640?6" }]
-          },
-          artists: [{ id: "artist_006", name: "Tim Maia" }]
-        },
-        {
-          id: "track_007",
-          name: "Idiota",
-          duration_ms: 194000,
-          popularity: 84,
-          explicit: false,
-          album: {
-            id: "album_007",
-            name: "Idiota",
-            release_date: "2023-04-07",
-            images: [{ url: "https://picsum.photos/640?7" }]
-          },
-          artists: [{ id: "artist_007", name: "Jão" }]
+
+    const handleLikedMusics = (id:string)=>{
+        const exist = likedMusics.some(i => i === id);
+        if(!exist){
+            setLikedMusics(prev =>[...prev,id])
+            console.log("LOG:musica com id ("+id+") foi curtido");       
+        }else {
+            console.log("LOG:musica com id ("+id+") retirando curtida");          
+            setLikedMusics(prev => prev.filter(i => i !== id));
         }
-      ],
-      total: 7,
-      limit: 7,
-      offset: 0
-    };
+    }
+    
+
     const MusicCards = ()=>{
         return(
             <ul className="music-cards">
                 {/* map  */}
                 
-                {musics.items?.map((music:any,id:any)=>(
+                {musics.items.map((music:any,id:any)=>(
                 <li key={id} className="bg-amber-50 card-container">
-                    <div className="img-card relative overflow-hidden">
+                    <div className="img-card relative overflow-hidden select-none">
                         <div
-                            onClick={() => handlePlaying(0)}
+                            onClick={() => handlePlaying(music.id)}
                             className="absolute  hover:bg-black/30 hover:backdrop-blur-xs
                                     transition-all ease-in
                                     w-full h-full flex justify-center items-center group"
                         >
                             {/* quando id for igual ao da musica , eu coloco pra tocar ou pausar */}
-                            {isPlaying.id == 0 && isPlaying.playing ? (
-                            <div className="hidden group-hover:block text-white text-2xl">
+                            {isPlaying.trackId == music.id && isPlaying.playing ? (
+                            <button className="hidden group-hover:block text-white text-2xl">
                                 <FaPause />
-                            </div>
+                            </button>
                             ) : (
-                            <div className="hidden group-hover:block text-white text-2xl">
+                            <button className="hidden group-hover:block text-white text-2xl">
                                 <FaPlay />
-                            </div>
+                            </button>
                             )}
                         </div>
 
@@ -158,8 +102,21 @@ const musics= {
                             <p>{music.artists[0].name}</p>
                         </div>
                         <div className="icon">
-                            <CiCirclePlus />
-                            <VscThumbsupFilled />
+                            {/* verifica se ta dentro do array para so depois expor no ui */}
+
+                            {addedMusics.some(m => m.id_music === music.id)?(
+                                <FaCirclePlus onClick={()=>handleAddMusic(music.id,music.name)} />
+                            ):(
+                               <CiCirclePlus onClick={()=>handleAddMusic(music.id,music.name)}/>
+                            )}
+                            
+                            <VscThumbsupFilled onClick={()=>handleLikedMusics(music.id)}
+                            className={
+                                likedMusics.some(likedId => likedId === music.id)
+                                ? "liked "
+                                : "no-liked"
+                            }
+                            />
                         </div>
                     </div>
                 </li> 

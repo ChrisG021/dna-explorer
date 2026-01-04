@@ -56,9 +56,13 @@
     font-size: 25px;
     cursor: pointer;
 }
-.description .icon:active{
-    background-color: #fff;
+.icon .liked{
+    color: var(--color-accent);
+    animation: like-pop 300ms ease-out;
+    transition: transform 300ms ease-out;
+    transform-style: preserve-3d;
 }
+
 @media (max-width:800px) {
     .music-cards .card-container{
     flex: 0 1 200px; 
@@ -88,3 +92,17 @@
         align-items: center; justify-content: space-between;
     }
 }
+@keyframes like-pop {
+  0% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.35);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}
+
+
+
