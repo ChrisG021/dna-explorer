@@ -1,0 +1,20 @@
+.report-page{
+    perspective: 2000px;
+}
+.report-page h1{
+    text-transform: uppercase;
+
+}
+.tracking{
+    border-radius: 10px;
+    background-color: #0e0e0e;
+    color: #f2f2f2;
+
+    transform-style: preserve-3d;
+    transform:
+        rotateX(var(--ry) )
+        rotateY(var(--rx) );
+    transition: transform 0.1s ease-out;
+    box-shadow:0 10px 40px rgba(0, 0, 0, 0.4);
+
+}

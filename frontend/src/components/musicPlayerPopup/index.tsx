@@ -1,10 +1,12 @@
 import { FaPause, FaPlay } from "react-icons/fa";
 import "./style.css";
 import { MdVolumeUp } from "react-icons/md";
+
 interface PlayProps {
   handlePlaying: (id:string) => void;
   currentTrack?: Track;
 }
+
 interface Track {
     id: string; 
     name: string; 
@@ -18,6 +20,7 @@ interface Track {
     artists: { id: string; name: string }[]; 
     isPlaying:boolean
 }
+
 export default function MusicPlayerPopup({handlePlaying,currentTrack,}: PlayProps) {
   if (!currentTrack) return null;
   
@@ -51,7 +54,7 @@ export default function MusicPlayerPopup({handlePlaying,currentTrack,}: PlayProp
           <div className="progress-bar" />
       </div>
 
-      <div className="w-full flex ">
+      <div className="w-full flex">
         <div onClick={()=>handlePlaying(currentTrack.id)} className=" w-[50%] flex justify-center">
           <button className=" text-white text-xl cursor-pointer">
         {currentTrack.isPlaying ? (
@@ -61,6 +64,7 @@ export default function MusicPlayerPopup({handlePlaying,currentTrack,}: PlayProp
           )}
           </button>
         </div>
+
         <div className="w-[50%] flex justify-end text-white text-xl ">
           <MdVolumeUp />
         </div>

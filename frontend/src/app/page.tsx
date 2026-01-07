@@ -1,10 +1,13 @@
 'use client'
+import ReportInput from "@/components/generateReport";
 import MusicPlayerPopup from "@/components/musicPlayerPopup";
 import Musics from "@/components/musics";
 import SearchBar from "@/components/searchBar";
+import { Track } from "@/types";
 import { useEffect, useState } from "react";
-
-export default function Home() {
+import "./styles.css"
+export default function app() {
+  const BASE_URL = "http://localhost:8000/api";
   const musics= {
         items: [
             {
@@ -104,14 +107,14 @@ export default function Home() {
                 images: [{ url: "https://picsum.photos/640?7" }]
             },
             artists: [{ id: "artist_007", name: "Jão" }]
-            }
+            },
         ],
         total: 7,
         limit: 7,
         offset: 0
   };
 
-  const BASE_URL_SPOTIFY = `teste de url ${process.env.NEXT_PUBLIC_API_KEY_SPOTIFY}`
+
   // grava qual id e utilizo para o toggle
   const [isPlaying, setIsPlaying] = useState({ trackId: "", playing: false });
 
@@ -121,6 +124,8 @@ export default function Home() {
   //musica selecionada para o player
   const currentTrack = trackFound 
     && { ...trackFound, isPlaying: isPlaying.playing } ;
+
+  const [selectedTrack, setSelectedTrack] = useState<Track>();
 
   const handlePlaying = (id: string) => {
     if (isPlaying.trackId === id) {
@@ -132,6 +137,8 @@ export default function Home() {
     }
   };
   // 7 musicas para o inicial e 3 para musicas curtidas
+  // https://api.deezer.com/track/{id}/related
+
   const fetchSimilarMusics = ()=>{
     // vai buscar as musicas
     //vai dar adc ao array
@@ -140,23 +147,46 @@ export default function Home() {
     return {}
   }
 
-  // 
+  useEffect(()=>{
+    //colocar o fetch similar musicc aqui dentro tb
+    //toda vez que mudar a msucia selecionada ele atualiza as msuicas mostradas
+    console.log("MUSICA SELECIONADA NA PESQUISA:",selectedTrack);
+  },[selectedTrack])
+
+  //me orienta para saber oq ta tocando e qual estar
   useEffect(()=>{
     console.log("STATE ATUALIZADO:", isPlaying);
     console.log("TRACK ATUAL:", currentTrack);
-  },[isPlaying.playing,currentTrack?.id])
+  },[isPlaying.playing,currentTrack?.id]);
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center">
       <div className="flex flex-col container lg:max-w-[70vw] w-full min-h-screen lg:p-20 p-10 gap-2">
-        <header className="flex justify-center items-center">
-            <SearchBar BASE_URL_SPOTIFY={BASE_URL_SPOTIFY}/>
+        <header className="flex flex-col justify-center items-center gap-1">
+            <SearchBar BASE_URL={BASE_URL} setSelectedTrack={setSelectedTrack}/>
+            <div className="flex max-w-[80%] w-full ">
+              <h2>Musica selecionada</h2>
+              {/* card da musica selecionada */}
+              <div className="w-full bg-black text-white">
+                <div className="img-card">
+                  <img      
+                  src={selectedTrack?.album?.cover}
+                  className="w-full h-full object-cover"
+                  alt={selectedTrack?.title} />
+                </div>
+                <div className="description">
+                  <h3 className="text">Leao</h3>
+                  <p>Marilia Mendonca</p>
+                </div>
+              </div>
+            </div>
         </header>
         <main>
           <Musics handlePlaying={handlePlaying} isPlaying={isPlaying} musics={musics}/>
         </main>
       </div>
     <MusicPlayerPopup handlePlaying={handlePlaying} currentTrack={currentTrack} />
+    <ReportInput/>
     </div>
   );
 }
