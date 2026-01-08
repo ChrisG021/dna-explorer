@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import "./style.css"
 import axios from "axios";
@@ -6,7 +6,7 @@ import { searchProp, SearchResponse, Track } from "@/types";
 
 
 //esta captando os dados e guardando o dados da pesquisa CHECK
-export default function SearchBar({BASE_URL,setSelectedTrack}:searchProp){
+export default function SearchBar({BASE_URL,setSelectedTrack,fetchSimilarMusics}:searchProp){
   const [loading, setLoading] = useState(false);
   const [bar,setBar] = useState(false);
   const [resultData,setResultData] = useState<SearchResponse>();
@@ -31,7 +31,10 @@ export default function SearchBar({BASE_URL,setSelectedTrack}:searchProp){
     }
   };
 
+  
+
   const handleBar =(music:Track)=>{
+    fetchSimilarMusics(music,7);
     setSelectedTrack(music);
     setBar(false);
   }
@@ -54,7 +57,7 @@ export default function SearchBar({BASE_URL,setSelectedTrack}:searchProp){
             </div>
             </>
           ):(
-            <ul className="bg-(--background-secondary) results-container">
+            <ul className="bg-(--background-primary) border border-white/10 results-container">
                 {resultData?.data?.map((music) => (
                   <li
                     key={music.id}
@@ -75,8 +78,8 @@ export default function SearchBar({BASE_URL,setSelectedTrack}:searchProp){
   return(
   <>
     <div onKeyDown={handleKeyDown} className="w-full relative flex lg:w-[80%] px-6 py-2 rounded-xl bg-(--background-secondary) items-center gap-2">
-      <input className="w-full outline-none" value={searchData} onChange={(e)=>setSearchData(e.target.value)} type="search" placeholder="Qual nome da música?" />
-      <div onClick={handleSearch} className="cursor-pointer">
+      <input className="w-full outline-none text-white" value={searchData} onChange={(e)=>setSearchData(e.target.value)} type="text" placeholder="Qual nome da música?" />
+      <div onClick={handleSearch} className="cursor-pointer text-white">
           <FaSearch/>
       </div>
 

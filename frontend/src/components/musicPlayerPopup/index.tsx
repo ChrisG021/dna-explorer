@@ -25,7 +25,7 @@ export default function MusicPlayerPopup({handlePlaying,currentTrack,}: PlayProp
   if (!currentTrack) return null;
   
   return (
-    <div className="musicPlayerPopup text-white fixed flex flex-col gap-3 bg-black/60 backdrop-blur-sm p-4 rounded-2xl bottom-2 left-2 max-w-[40vw] lg:max-w-[25vw] w-full h-auto z-15">
+    <div className="musicPlayerPopup text-white fixed flex flex-col gap-3 bg-black/20 backdrop-blur-sm p-4 rounded-2xl bottom-2 left-2 max-w-[40vw] lg:max-w-[25vw] w-full h-auto z-15">
       
       <div className="flex max-md:flex-col gap-3 w-full">
         <div className="w-full md:w-18 md:h-18 ">
@@ -55,7 +55,7 @@ export default function MusicPlayerPopup({handlePlaying,currentTrack,}: PlayProp
       </div>
 
       <div className="w-full flex">
-        <div onClick={()=>handlePlaying(currentTrack.id)} className=" w-[50%] flex justify-center">
+        <div onClick={()=>handlePlaying(currentTrack.id)} className=" w-[50%] flex justify-start">
           <button className=" text-white text-xl cursor-pointer">
         {currentTrack.isPlaying ? (
             <FaPause />

@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+
 import requests
 app = FastAPI()
 
@@ -25,3 +26,5 @@ def proxy_deezer(path:str,req:Request):
     response = requests.get(DEEZER_URL,params=params)
     
     return response.json()
+
+

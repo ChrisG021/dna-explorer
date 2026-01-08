@@ -4,8 +4,8 @@ import MusicPlayerPopup from "@/components/musicPlayerPopup";
 import Musics from "@/components/musics";
 import SearchBar from "@/components/searchBar";
 import { Track } from "@/types";
+import axios from "axios";
 import { useEffect, useState } from "react";
-import "./styles.css"
 export default function app() {
   const BASE_URL = "http://localhost:8000/api";
   const musics= {
@@ -139,16 +139,13 @@ export default function app() {
   // 7 musicas para o inicial e 3 para musicas curtidas
   // https://api.deezer.com/track/{id}/related
 
-  const fetchSimilarMusics = ()=>{
-    // vai buscar as musicas
-    //vai dar adc ao array
-
-    // dados ficticios
-    return {}
-  }
+  const fetchSimilarMusics = async (music:Track,quantity:number)=>{
+      // vai buscar as musicas
+      //vai dar adc ao array
+     
+    }
 
   useEffect(()=>{
-    //colocar o fetch similar musicc aqui dentro tb
     //toda vez que mudar a msucia selecionada ele atualiza as msuicas mostradas
     console.log("MUSICA SELECIONADA NA PESQUISA:",selectedTrack);
   },[selectedTrack])
@@ -161,25 +158,29 @@ export default function app() {
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center">
-      <div className="flex flex-col container lg:max-w-[70vw] w-full min-h-screen lg:p-20 p-10 gap-2">
+      <div className="flex flex-col container lg:max-w-[70vw] w-full min-h-screen lg:p-20 p-10 gap-10">
         <header className="flex flex-col justify-center items-center gap-1">
-            <SearchBar BASE_URL={BASE_URL} setSelectedTrack={setSelectedTrack}/>
-            <div className="flex max-w-[80%] w-full ">
-              <h2>Musica selecionada</h2>
-              {/* card da musica selecionada */}
-              <div className="w-full bg-black text-white">
-                <div className="img-card">
-                  <img      
-                  src={selectedTrack?.album?.cover}
-                  className="w-full h-full object-cover"
-                  alt={selectedTrack?.title} />
-                </div>
-                <div className="description">
-                  <h3 className="text">Leao</h3>
-                  <p>Marilia Mendonca</p>
+            <SearchBar BASE_URL={BASE_URL} setSelectedTrack={setSelectedTrack} fetchSimilarMusics={fetchSimilarMusics}/>
+            {selectedTrack&&(
+              <div className="flex flex-row justify-center items-center gap-5 mt-5 md:max-w-[80%] w-full text-white ">
+                <div className="flex flex-row items-center gap-4 bg-gray-800/80 p-4 rounded-2xl w-full md:max-w-xl">
+                  
+                  <div className="shrink-0 w-10 md:w-16 h-15 md:h-18 overflow-hidden rounded-lg bg-white">
+                    <img
+                      src={selectedTrack?.album?.cover}
+                      alt={selectedTrack?.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <div className="flex flex-col justify-center">
+                    <h3 className="text-lg md:text-xl font-bold">{selectedTrack?.title}</h3>
+                    <p className="text-sm ">{selectedTrack?.artist?.name}</p>
+                  </div>
+
                 </div>
               </div>
-            </div>
+            )}
         </header>
         <main>
           <Musics handlePlaying={handlePlaying} isPlaying={isPlaying} musics={musics}/>

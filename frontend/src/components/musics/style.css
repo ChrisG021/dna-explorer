@@ -9,8 +9,8 @@
 .music-cards .card-container{
     display: flex;
     flex-direction: column;
-    background-color: var(--color-black);
-    color: var(--text-inverse);
+    background-color: var(--background-secondary);
+    color: var(--color-white);
     padding: 10px;
     border-radius:10px;
     flex: 1 1 250px; /* 1 = grow, 1 = shrink, 200px = base mínima */

@@ -70,7 +70,7 @@ export default function Musics({handlePlaying,isPlaying,musics}:musicProps){
                 {/* map  */}
                 
                 {musics.items.map((music:any,id:any)=>(
-                <li key={id} className="bg-amber-50 card-container">
+                <li key={id} className=" card-container">
                     <div className="img-card relative overflow-hidden select-none">
                         <div
                             onClick={() => handlePlaying(music.id)}

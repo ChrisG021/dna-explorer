@@ -26,10 +26,13 @@
     z-index: 10;
     overflow-x: auto;
 }
-
+.results-container::-webkit-scrollbar{
+    width: 0;
+    overflow: hidden;
+}
 /* == cards do results */
 .results-item{
-    background-color: var(--background-primary);
+    background-color: var(--background-secondary);
     border-radius: 10px;
     padding-inline: 10px;
     padding-block: 5px;
@@ -38,12 +41,13 @@
     cursor: pointer;
 }
 .results-item p{
+    color: var(--color-white);
     font-weight: bold;
     font-size: 17px;
 }
 .results-item span{
-    color: var(--text-secondary);
-    font-size: 15px;
+    color: var(--color-white);
+    font-size: 13px;
 
 }
 .results-item:hover{
@@ -65,9 +69,7 @@
         opacity 0.25s ease,
         transform 0.25s ease;
 }
-.loading.none{
-    
-}
+
 .loading.show{
     opacity: 1;
     transform: translateY(0);

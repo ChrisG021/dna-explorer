@@ -21,8 +21,9 @@
   --text-inverse: var(--color-white);
 
   /* Backgrounds */
-  --background-primary: var(--color-white);
-  --background-secondary: var(--color-gray-light);
+  --background-primary: #1a1a1a;
+  --background-secondary: #343434;
+
 }
 
 

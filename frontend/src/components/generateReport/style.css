@@ -5,12 +5,13 @@
   user-select: none;
 }
 .report-input {
-  background-color: var(--background-primary);
+  background-color:var(--background-secondary);
+  color:  #fff;
   width: 100%;
   border-radius: 8px;
   padding: 7px 16px;
   box-shadow: rgba(77, 79, 82, 0.2) 0px 8px 24px;
-  border: 2px solid rgb(184, 180, 180);
+  border: 2px solid #e5e5e5;
   font-size: 0.8rem;
   outline: none;
   transition: 0.5s ease;
@@ -21,11 +22,9 @@
 }
 .report-input:hover {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-  border-color: rgb(138, 175, 255);
 }
 
 .report-input:focus {
-  border: 2px solid rgb(57, 120, 255);
   box-shadow: rgba(133, 130, 130, 0.1) 0px 4px 12px;
   transform: scale(0.99);
 }
@@ -38,9 +37,9 @@
 .report-button {
   padding: 6px 15px;
   text-align: center;
-  color: rgb(95, 87, 87);
+  color: #fff;
   cursor: pointer;
-  background-color: white;
+  background-color: var(--color-accent);
   border-radius: 6px;
   border: none;
   transition: 0.5s;
@@ -54,8 +53,7 @@
 
 .report-button:hover {
   border-radius: 7px;
-  background-color: rgb(243, 242, 242);
-  border-color: rgb(236, 232, 232);
+  background-color: var(--color-accent-hover);
 }
 
 

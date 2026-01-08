@@ -56,6 +56,7 @@ export interface SearchResponse {
 //props 
 export interface searchProp{
   BASE_URL:string;
+  fetchSimilarMusics:(music:Track,quantity:number)=>void;
   //tipagem para a funcao que poem valor no useState no caso com valor track or undefined
   setSelectedTrack:React.Dispatch<React.SetStateAction<Track | undefined>>;
 }
