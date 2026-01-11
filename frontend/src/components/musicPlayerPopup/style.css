@@ -12,7 +12,8 @@
     position: absolute;
     content: '';
     height: 100%;
-    width: 40%;
+    width: calc((var(--current-time)/var(--duration))*100%);
+    transition: width 200ms linear;
     border-radius: 5px;
     background-color: var(--color-accent);
 }

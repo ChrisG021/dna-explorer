@@ -1,75 +1,19 @@
 import "./style.css"
 import { FaPause, FaPlay } from "react-icons/fa";
-import { useState } from "react";
 import { VscThumbsupFilled } from "react-icons/vsc";
 import { CiCirclePlus } from "react-icons/ci";
 import { FaCirclePlus } from "react-icons/fa6";
+import { musicProps, Track } from "@/types";
 //armazena musicas
-interface likedMusic{
-    id_music:string,
-    name_music:string
-}
-
-interface musicProps{
-    handlePlaying:(id:string)=>void,
-    isPlaying: {
-        trackId:string,
-        playing:boolean
-    },
-    musics:{
-        items: Array<object>;
-        total: number;
-        limit: number;
-        offset: number;
-    }
-}
-
-export default function Musics({handlePlaying,isPlaying,musics}:musicProps){
-    const MAX = 7;
-   
-    const [addedMusics,setAddedMusics] = useState<Array<likedMusic>>([])
-    const [likedMusics,setLikedMusics] = useState<Array<string>>([])
 
 
-    const handleAddMusic = (id: string, name: string) => {
-        // Verifica se a música já existe
-        const exist = addedMusics.some(m => m.id_music === id);
-        const isFull = addedMusics.length >= MAX;
-
-        if (!exist && !isFull) {
-            //pega o conteudo que ja ta e so adc um novo e tb 
-            setAddedMusics(prev => [...prev, { id_music: id, name_music: name }]);
-            handleLikedMusics(id);
-            console.log("LOG:musica com id ("+id+") foi adicionado");       
-            
-        } else if(exist){
-            //vai fazer uma filtragem e retirar do array aquele que for igual a esse id
-            console.log("LOG:musica com id ("+id+") sendo retirada");          
-            setAddedMusics(prev => prev.filter(m => m.id_music !== id));
-
-        } else if (isFull) {
-            console.warn("Limite máximo de músicas atingido");
-        }
-    };
-
-    const handleLikedMusics = (id:string)=>{
-        const exist = likedMusics.some(i => i === id);
-        if(!exist){
-            setLikedMusics(prev =>[...prev,id])
-            console.log("LOG:musica com id ("+id+") foi curtido");       
-        }else {
-            console.log("LOG:musica com id ("+id+") retirando curtida");          
-            setLikedMusics(prev => prev.filter(i => i !== id));
-        }
-    }
-    
-
+export default function Musics({handlePlaying,isPlaying,musics,handleAddMusics,handleLikedMusics,likedMusics,addedMusics}:musicProps){
     const MusicCards = ()=>{
         return(
             <ul className="music-cards">
                 {/* map  */}
                 
-                {musics.items.map((music:any,id:any)=>(
+                {musics.map((music:Track,id:number)=>(
                 <li key={id} className=" card-container">
                     <div className="img-card relative overflow-hidden select-none">
                         <div
@@ -91,26 +35,26 @@ export default function Musics({handlePlaying,isPlaying,musics}:musicProps){
                         </div>
 
                         <img
-                            src={music.album.images[0].url}
+                            src={music.album.cover_xl}
                             className="w-full h-full object-cover"
-                            alt={music.name}
+                            alt={music.title}
                         />
                     </div>
                     <div className="description">
                         <div className="text">
-                            <h3>{music.name}</h3>
-                            <p>{music.artists[0].name}</p>
+                            <h3 className="">{music.title}</h3>
+                            <p className="">{music.artist.name}</p>
                         </div>
                         <div className="icon">
                             {/* verifica se ta dentro do array para so depois expor no ui */}
 
                             {addedMusics.some(m => m.id_music === music.id)?(
-                                <FaCirclePlus onClick={()=>handleAddMusic(music.id,music.name)} />
+                                <FaCirclePlus onClick={()=>handleAddMusics(music.id,music.title,music)} />
                             ):(
-                               <CiCirclePlus onClick={()=>handleAddMusic(music.id,music.name)}/>
+                               <CiCirclePlus onClick={()=>handleAddMusics(music.id,music.title,music)}/>
                             )}
                             
-                            <VscThumbsupFilled onClick={()=>handleLikedMusics(music.id)}
+                            <VscThumbsupFilled onClick={()=>handleLikedMusics(music.id,music)}
                             className={
                                 likedMusics.some(likedId => likedId === music.id)
                                 ? "liked "

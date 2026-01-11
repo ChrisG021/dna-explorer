@@ -3,158 +3,145 @@ import ReportInput from "@/components/generateReport";
 import MusicPlayerPopup from "@/components/musicPlayerPopup";
 import Musics from "@/components/musics";
 import SearchBar from "@/components/searchBar";
-import { Track } from "@/types";
+import { MusicAdd, Track } from "@/types";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 export default function app() {
   const BASE_URL = "http://localhost:8000/api";
-  const musics= {
-        items: [
-            {
-            id: "track_001",
-            name: "Sunshine - Ao Vivo",
-            duration_ms: 214000,
-            popularity: 78,
-            explicit: false,
-            album: {
-                id: "album_001",
-                name: "Delacruz Ao Vivo",
-                release_date: "2023-09-15",
-                images: [{ url: "https://picsum.photos/640?1" }]
-            },
-            artists: [{ id: "artist_001", name: "Delacruz" }]
-            },
-            {
-            id: "track_002",
-            name: "Afrodite",
-            duration_ms: 198000,
-            popularity: 82,
-            explicit: false,
-            album: {
-                id: "album_002",
-                name: "Nonsense, Vol. 1",
-                release_date: "2022-05-10",
-                images: [{ url: "https://picsum.photos/640?2" }]
-            },
-            artists: [{ id: "artist_002", name: "BK'" }]
-            },
-            {
-            id: "track_003",
-            name: "Teu Popô",
-            duration_ms: 176000,
-            popularity: 75,
-            explicit: true,
-            album: {
-                id: "album_003",
-                name: "Ladrão",
-                release_date: "2019-09-13",
-                images: [{ url: "https://picsum.photos/640?3" }]
-            },
-            artists: [{ id: "artist_003", name: "Djonga" }]
-            },
-            {
-            id: "track_004",
-            name: "Amor Pra Depois",
-            duration_ms: 203000,
-            popularity: 69,
-            explicit: false,
-            album: {
-                id: "album_004",
-                name: "Amor Pra Depois",
-                release_date: "2021-02-14",
-                images: [{ url: "https://picsum.photos/640?4" }]
-            },
-            artists: [{ id: "artist_004", name: "Giulia Be" }]
-            },
-            {
-            id: "track_005",
-            name: "Leão",
-            duration_ms: 189000,
-            popularity: 88,
-            explicit: false,
-            album: {
-                id: "album_005",
-                name: "Ouro",
-                release_date: "2020-11-20",
-                images: [{ url: "https://picsum.photos/640?5" }]
-            },
-            artists: [{ id: "artist_005", name: "Marília Mendonça" }]
-            },
-            {
-            id: "track_006",
-            name: "Várias Queixas",
-            duration_ms: 221000,
-            popularity: 90,
-            explicit: false,
-            album: {
-                id: "album_006",
-                name: "Tim Maia",
-                release_date: "1981-01-01",
-                images: [{ url: "https://picsum.photos/640?6" }]
-            },
-            artists: [{ id: "artist_006", name: "Tim Maia" }]
-            },
-            {
-            id: "track_007",
-            name: "Idiota",
-            duration_ms: 194000,
-            popularity: 84,
-            explicit: false,
-            album: {
-                id: "album_007",
-                name: "Idiota",
-                release_date: "2023-04-07",
-                images: [{ url: "https://picsum.photos/640?7" }]
-            },
-            artists: [{ id: "artist_007", name: "Jão" }]
-            },
-        ],
-        total: 7,
-        limit: 7,
-        offset: 0
-  };
-
-
+  const [similarMusics,setSimilarMusics] = useState<Track[]>([])
+  const [addedMusics,setAddedMusics] = useState<Array<MusicAdd>>([])
+  const [likedMusics,setLikedMusics] = useState<Array<number>>([])
+  const MAX = 7;
+  let tracks:Track[] = [];
+  
   // grava qual id e utilizo para o toggle
-  const [isPlaying, setIsPlaying] = useState({ trackId: "", playing: false });
+  const [isPlaying, setIsPlaying] = useState({ trackId:0, playing: false });
 
   // utiliza id acima para pegar os dados da faixa que vai ser tocada
-  const trackFound = musics.items.find((m) => m.id === isPlaying.trackId);
-
-  //musica selecionada para o player
-  const currentTrack = trackFound 
-    && { ...trackFound, isPlaying: isPlaying.playing } ;
-
+  const trackFound = similarMusics.find((m) => m.id === isPlaying.trackId);
   const [selectedTrack, setSelectedTrack] = useState<Track>();
 
-  const handlePlaying = (id: string) => {
+  //musica selecionada para o player
+  const currentTrack = trackFound && { ...trackFound, isPlaying: isPlaying.playing };
+  
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const handlePlaying = (id: number) => {
     if (isPlaying.trackId === id) {
-        // toggle play/pause for the same id
-        setIsPlaying({ trackId: id, playing: !isPlaying.playing });
+      // toggle play/pause for the same id
+      setIsPlaying({ trackId: id, playing: !isPlaying.playing });
+      if(isPlaying.playing){
+        audioRef.current?.pause();
+      }else{
+        audioRef.current?.play();
+      }
+
     } else {
-        // switch to new id and play
-        setIsPlaying({ trackId: id, playing: true });
+      // switch to new id and play
+      audioRef.current?.pause();
+      // audioRef?.current.currentTime = 0;
+
+      setIsPlaying({ trackId: id, playing: true });
+      audioRef.current?.play();
     }
   };
+
+  const handleAddMusics = (id: number, name: string,music:Track) => {
+    // Verifica se a música já existe
+    const exist = addedMusics.some(m => m.id_music === id);
+    const isFull = addedMusics.length >= MAX;
+
+    if (!exist && !isFull) {
+      //pega o conteudo que ja ta e so adc um novo e tb 
+      setAddedMusics(prev => [...prev, { id_music: id, name_music: name }]);
+      handleLikedMusics(id,music);
+      console.log("LOG:musica com id ("+id+") foi adicionado");       
+        
+    } else if(exist){
+      //vai fazer uma filtragem e retirar do array aquele que for igual a esse id
+      console.log("LOG:musica com id ("+id+") sendo retirada");          
+      setAddedMusics(prev => prev.filter(m => m.id_music !== id));
+
+    } else if (isFull) {
+      console.warn("Limite máximo de músicas atingido");
+    }
+  };
+
+  const handleLikedMusics = (id:number,music:Track)=>{
+      const exist = likedMusics.some(i => i === id);
+      if(!exist){
+          setLikedMusics(prev =>[...prev,id])
+          fetchSimilarMusics(music,3)
+          console.log("LOG:musica com id ("+id+") foi curtido");       
+      }else {
+          console.log("LOG:musica com id ("+id+") retirando curtida");          
+          setLikedMusics(prev => prev.filter(i => i !== id));
+      }
+  }
   // 7 musicas para o inicial e 3 para musicas curtidas
-  // https://api.deezer.com/track/{id}/related
 
   const fetchSimilarMusics = async (music:Track,quantity:number)=>{
-      // vai buscar as musicas
-      //vai dar adc ao array
-     
+    /*
+      Funcao busca musicas similares tendo como base 
+      music-> musica que serve como parametro ppara geracaco de musicas similares
+      quantity-> quantidade de musicas que serão geradas
+      ps: TODAS as musicas geradas passam por um filtro apartir das musicas que foram curtidas e que estao sendo exibidas para evitar repeticoes
+
+    */
+  
+    if(quantity == 7){
+      setLikedMusics([])
+      //musicas sem tratamento algum
+      tracks = []
+      //musicas a serem exibidas apos serem tratadas
+      setSimilarMusics([])
+    }
+    //busca as top 30 musicas do radio do artista da musica pesquisa, nesse radio tem tanto musicas dele como tb semelhante em genero
+    const response = (await axios.get(BASE_URL+"/artist/"+music.artist.id+"/radio&order=RANKING&limit=30")).data;
+
+    let index = 0;
+    while(tracks.length < quantity){
+      const exist = likedMusics.some(i => i === response.data[index].id) || similarMusics.some((music)=> music.id === response.data[index].id);
+        //filtra pra saber se ja foi curtido ou se ja esta sendo exibido
+      // ta passando direto pelo fiultro
+      if(!exist){
+        console.log("buscando id no array liked music\nresultado: ",exist);
+        tracks.push(response.data[index]);
+      }else{
+        console.log("LOG: Retirando musica repetida",response.data[index]);
+      }
+      index+=1;
     }
 
+    setSimilarMusics(prev=> [...prev,...tracks]);
+
+  }
+
+  //atualiza a instancia do audioTag com base na mudanca de valor do currentTrack
   useEffect(()=>{
-    //toda vez que mudar a msucia selecionada ele atualiza as msuicas mostradas
+    if(!currentTrack?.preview) return;
+    if(!audioRef.current){
+      //liga 
+      audioRef.current = new Audio(currentTrack.preview);
+      audioRef.current.volume = 0.2;//nots working
+      // n resolvi o b.o que ele n inicia direto a musica
+    }else{
+      audioRef.current.src = currentTrack.preview;
+    }
+  },[currentTrack?.id])
+
+  useEffect(()=>{
+    //toda vez que mudar a musica selecionada ele atualiza as musicas mostradas
     console.log("MUSICA SELECIONADA NA PESQUISA:",selectedTrack);
-  },[selectedTrack])
+    console.log("SIMILAR MUSICS ARRAY",similarMusics);
+
+  },[selectedTrack,similarMusics])
 
   //me orienta para saber oq ta tocando e qual estar
   useEffect(()=>{
     console.log("STATE ATUALIZADO:", isPlaying);
     console.log("TRACK ATUAL:", currentTrack);
   },[isPlaying.playing,currentTrack?.id]);
+
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center">
@@ -183,10 +170,10 @@ export default function app() {
             )}
         </header>
         <main>
-          <Musics handlePlaying={handlePlaying} isPlaying={isPlaying} musics={musics}/>
+          <Musics addedMusics={addedMusics} handleAddMusics={handleAddMusics} handleLikedMusics={handleLikedMusics} likedMusics={likedMusics}  handlePlaying={handlePlaying} isPlaying={isPlaying} musics={similarMusics}/>
         </main>
       </div>
-    <MusicPlayerPopup handlePlaying={handlePlaying} currentTrack={currentTrack} />
+    <MusicPlayerPopup audioRef={audioRef} handlePlaying={handlePlaying} currentTrack={currentTrack} />
     <ReportInput/>
     </div>
   );

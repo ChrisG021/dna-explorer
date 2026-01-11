@@ -2,6 +2,8 @@
 
 //tipagens
 
+import React from "react";
+
 export interface Artist {
   id: number;
   name: string;
@@ -52,6 +54,10 @@ export interface SearchResponse {
   total: number;
   next?: string;
 }
+export interface MusicAdd{
+    id_music:number,
+    name_music:string
+}
 
 //props 
 export interface searchProp{
@@ -59,4 +65,22 @@ export interface searchProp{
   fetchSimilarMusics:(music:Track,quantity:number)=>void;
   //tipagem para a funcao que poem valor no useState no caso com valor track or undefined
   setSelectedTrack:React.Dispatch<React.SetStateAction<Track | undefined>>;
+}
+
+export interface musicProps{
+    handlePlaying:(id:number)=>void,
+    isPlaying: {
+        trackId:number,
+        playing:boolean
+    },
+    handleAddMusics:(id:number,name:string,music:Track)=>void;
+    handleLikedMusics:(id:number,music:Track)=>void;
+    likedMusics:number[];
+    addedMusics:MusicAdd[];
+    musics:Array<Track>
+}
+export interface PlayProps {
+  handlePlaying: (id:number) => void;
+  audioRef:React.RefObject<HTMLAudioElement|null>
+  currentTrack?: any;
 }
