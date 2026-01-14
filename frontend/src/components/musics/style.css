@@ -8,6 +8,7 @@
 
 .music-cards .card-container{
     display: flex;
+    width: 100%;
     flex-direction: column;
     background-color: var(--background-secondary);
     color: var(--color-white);
@@ -26,16 +27,6 @@
     max-height: 75%;
     height: 100%;
 }
-/* .img-card::after{
-    position: absolute;
-    content: "";
-    background-color: var(--color-accent);
-    border-radius: 10px;
-    width: 10%;vai ter uma variavel que controla isso
-    height: 2px;
-    bottom: 0;
-    left: 0;
-} */
 
 .card-container h3{
     font-weight: bold;
@@ -47,6 +38,9 @@
     width: 100%;
     display: flex;
     align-items: center; justify-content: space-between;
+}
+.description .text{
+    min-width: 100px;
 }
 
 .description .icon{

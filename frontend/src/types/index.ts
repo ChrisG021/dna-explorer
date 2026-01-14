@@ -56,7 +56,8 @@ export interface SearchResponse {
 }
 export interface MusicAdd{
     id_music:number,
-    name_music:string
+    name_music:string,
+    artist:string,
 }
 
 //props 
@@ -73,7 +74,7 @@ export interface musicProps{
         trackId:number,
         playing:boolean
     },
-    handleAddMusics:(id:number,name:string,music:Track)=>void;
+    handleAddMusics:(music:Track)=>void;
     handleLikedMusics:(id:number,music:Track)=>void;
     likedMusics:number[];
     addedMusics:MusicAdd[];

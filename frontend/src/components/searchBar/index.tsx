@@ -22,7 +22,7 @@ export default function SearchBar({BASE_URL,setSelectedTrack,fetchSimilarMusics}
     setBar(true);
     setLoading(true);
     try{
-      const response = (await axios.get(`${BASE_URL}/search/track?q=${searchData}&strict=on&order=RANKING`)).data;
+      const response = (await axios.get(`${BASE_URL}/deezer/search/track?q=${searchData}&strict=on&order=RANKING`)).data;
       setResultData(response);
       console.log(resultData);
       setLoading(false);

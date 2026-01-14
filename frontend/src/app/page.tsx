@@ -45,21 +45,21 @@ export default function app() {
     }
   };
 
-  const handleAddMusics = (id: number, name: string,music:Track) => {
+  const handleAddMusics = (music:Track) => {
     // Verifica se a música já existe
-    const exist = addedMusics.some(m => m.id_music === id);
+    const exist = addedMusics.some(m => m.id_music === music.id);
     const isFull = addedMusics.length >= MAX;
 
     if (!exist && !isFull) {
       //pega o conteudo que ja ta e so adc um novo e tb 
-      setAddedMusics(prev => [...prev, { id_music: id, name_music: name }]);
-      handleLikedMusics(id,music);
-      console.log("LOG:musica com id ("+id+") foi adicionado");       
+      setAddedMusics(prev => [...prev, { id_music: music.id, name_music: music.title, artist:music.artist.name}]);
+      handleLikedMusics(music.id,music);
+      console.log("LOG:musica com id ("+music.id+") foi adicionado");       
         
     } else if(exist){
       //vai fazer uma filtragem e retirar do array aquele que for igual a esse id
-      console.log("LOG:musica com id ("+id+") sendo retirada");          
-      setAddedMusics(prev => prev.filter(m => m.id_music !== id));
+      console.log("LOG:musica com id ("+music.id+") sendo retirada");          
+      setAddedMusics(prev => prev.filter(m => m.id_music !== music.id));
 
     } else if (isFull) {
       console.warn("Limite máximo de músicas atingido");
@@ -96,7 +96,7 @@ export default function app() {
       setSimilarMusics([])
     }
     //busca as top 30 musicas do radio do artista da musica pesquisa, nesse radio tem tanto musicas dele como tb semelhante em genero
-    const response = (await axios.get(BASE_URL+"/artist/"+music.artist.id+"/radio&order=RANKING&limit=30")).data;
+    const response = (await axios.get(BASE_URL+"/deezer/artist/"+music.artist.id+"/radio&order=RANKING&limit=30")).data;
 
     let index = 0;
     while(tracks.length < quantity){
@@ -174,7 +174,7 @@ export default function app() {
         </main>
       </div>
     <MusicPlayerPopup audioRef={audioRef} handlePlaying={handlePlaying} currentTrack={currentTrack} />
-    <ReportInput/>
+    <ReportInput BASE_URL={BASE_URL} addedMusics={addedMusics}/>
     </div>
   );
 }

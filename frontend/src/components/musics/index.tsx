@@ -15,7 +15,7 @@ export default function Musics({handlePlaying,isPlaying,musics,handleAddMusics,h
                 
                 {musics.map((music:Track,id:number)=>(
                 <li key={id} className=" card-container">
-                    <div className="img-card relative overflow-hidden select-none">
+                    <div className="img-card relative overflow-hidden select-none ">
                         <div
                             onClick={() => handlePlaying(music.id)}
                             className="absolute  hover:bg-black/30 hover:backdrop-blur-xs
@@ -36,22 +36,22 @@ export default function Musics({handlePlaying,isPlaying,musics,handleAddMusics,h
 
                         <img
                             src={music.album.cover_xl}
-                            className="w-full h-full object-cover"
+                            className="min-w-full h-full object-cover"
                             alt={music.title}
                         />
                     </div>
                     <div className="description">
-                        <div className="text">
-                            <h3 className="">{music.title}</h3>
-                            <p className="">{music.artist.name}</p>
+                        <div className="text min-w-0">
+                            <h3 className="truncate">{music.title}</h3>
+                            <p className="truncate">{music.artist.name}</p>
                         </div>
                         <div className="icon">
                             {/* verifica se ta dentro do array para so depois expor no ui */}
 
                             {addedMusics.some(m => m.id_music === music.id)?(
-                                <FaCirclePlus onClick={()=>handleAddMusics(music.id,music.title,music)} />
+                                <FaCirclePlus onClick={()=>handleAddMusics(music)} />
                             ):(
-                               <CiCirclePlus onClick={()=>handleAddMusics(music.id,music.title,music)}/>
+                               <CiCirclePlus onClick={()=>handleAddMusics(music)}/>
                             )}
                             
                             <VscThumbsupFilled onClick={()=>handleLikedMusics(music.id,music)}
