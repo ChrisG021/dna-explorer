@@ -4,15 +4,15 @@ import { VscThumbsupFilled } from "react-icons/vsc";
 import { CiCirclePlus } from "react-icons/ci";
 import { FaCirclePlus } from "react-icons/fa6";
 import { musicProps, Track } from "@/types";
+import { useState } from "react";
 //armazena musicas
 
 
-export default function Musics({handlePlaying,isPlaying,musics,handleAddMusics,handleLikedMusics,likedMusics,addedMusics}:musicProps){
+export default function Musics({handlePlaying,isPlaying,musics,handleAddMusics,handleLikedMusics,likedMusics,addedMusics,loadingMusics}:musicProps){
+
     const MusicCards = ()=>{
         return(
-            <ul className="music-cards">
-                {/* map  */}
-                
+            <ul className="music-cards">   
                 {musics.map((music:Track,id:number)=>(
                 <li key={id} className=" card-container">
                     <div className="img-card relative overflow-hidden select-none ">
@@ -71,7 +71,17 @@ export default function Musics({handlePlaying,isPlaying,musics,handleAddMusics,h
     return(
 
         <div className="w-full">
-            {MusicCards()}
+            {/* loading */}
+            {loadingMusics==true && musics.length==0?(
+                    <div className="loader">
+                        <span className="bar"></span>
+                        <span className="bar"></span>
+                        <span className="bar"></span>
+                    </div>
+            ):(MusicCards())}
+
+            {/* loading posterior */}
+
         </div>
     );
 }

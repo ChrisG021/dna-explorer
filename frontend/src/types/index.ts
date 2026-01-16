@@ -78,7 +78,8 @@ export interface musicProps{
     handleLikedMusics:(id:number,music:Track)=>void;
     likedMusics:number[];
     addedMusics:MusicAdd[];
-    musics:Array<Track>
+    musics:Array<Track>;
+    loadingMusics:boolean;
 }
 export interface PlayProps {
   handlePlaying: (id:number) => void;

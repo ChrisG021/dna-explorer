@@ -34,7 +34,7 @@ def proxy_deezer(path:str,req:Request):
 #its working
 config = dotenv_values(".env")
 client = genai.Client(api_key=config.get('API_KEY'))
-resend.api_key = "re_WKPNgX3q_163HpQ7i53dFQ1XX5X4GqTxN"
+resend.api_key = config.get('RESEND_API_KEY')
 
 #nota mental: quando  for usa html mail , preferência por css inline
 
@@ -169,7 +169,7 @@ def report(req:Request,data:dict = Body(...)):
     response = {
         "status":status.HTTP_200_OK,
         "musics":musics,
-        "email":r
+        "id_email":r
     }
     print(response)
     return response

@@ -61,8 +61,10 @@
     gap: 10px;
     justify-content: center;
     align-items: center;
-    color: var(--color-gray-medium);
-    opacity: 0;
+    color: #fff;
+    opacity: 1;
+    text-transform: uppercase;
+    font-weight: bold;
     transform: translateY(-8px);
     pointer-events: none;
     transition:
@@ -70,15 +72,11 @@
         transform 0.25s ease;
 }
 
-.loading.show{
-    opacity: 1;
-    transform: translateY(0);
-}
 /* loadign effect */
 .three-body {
  --uib-size: 20px;
  --uib-speed: 0.8s;
- --uib-color: var(--color-gray-medium);
+ --uib-color: #fff;
  position: relative;
  display: inline-block;
  height: var(--uib-size);

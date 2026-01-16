@@ -3,14 +3,18 @@ import ReportInput from "@/components/generateReport";
 import MusicPlayerPopup from "@/components/musicPlayerPopup";
 import Musics from "@/components/musics";
 import SearchBar from "@/components/searchBar";
+import { showToast } from "@/components/toast";
 import { MusicAdd, Track } from "@/types";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import { ToastContainer } from "react-toastify";
 export default function app() {
   const BASE_URL = "http://localhost:8000/api";
-  const [similarMusics,setSimilarMusics] = useState<Track[]>([])
-  const [addedMusics,setAddedMusics] = useState<Array<MusicAdd>>([])
-  const [likedMusics,setLikedMusics] = useState<Array<number>>([])
+  const [similarMusics,setSimilarMusics] = useState<Track[]>([]);
+  const [addedMusics,setAddedMusics] = useState<Array<MusicAdd>>([]);
+  const [likedMusics,setLikedMusics] = useState<Array<number>>([]);
+  const [loadingMusics,setLoadingMusics]  = useState(false);
+
   const MAX = 7;
   let tracks:Track[] = [];
   
@@ -77,66 +81,79 @@ export default function app() {
           setLikedMusics(prev => prev.filter(i => i !== id));
       }
   }
-  // 7 musicas para o inicial e 3 para musicas curtidas
 
+  // 7 musicas para o inicial e 3 para musicas curtidas
   const fetchSimilarMusics = async (music:Track,quantity:number)=>{
     /*
       Funcao busca musicas similares tendo como base 
       music-> musica que serve como parametro ppara geracaco de musicas similares
       quantity-> quantidade de musicas que serão geradas
       ps: TODAS as musicas geradas passam por um filtro apartir das musicas que foram curtidas e que estao sendo exibidas para evitar repeticoes
-
     */
-  
-    if(quantity == 7){
-      setLikedMusics([])
-      //musicas sem tratamento algum
-      tracks = []
-      //musicas a serem exibidas apos serem tratadas
-      setSimilarMusics([])
-    }
-    //busca as top 30 musicas do radio do artista da musica pesquisa, nesse radio tem tanto musicas dele como tb semelhante em genero
-    const response = (await axios.get(BASE_URL+"/deezer/artist/"+music.artist.id+"/radio&order=RANKING&limit=30")).data;
-
-    let index = 0;
-    while(tracks.length < quantity){
-      const exist = likedMusics.some(i => i === response.data[index].id) || similarMusics.some((music)=> music.id === response.data[index].id);
-        //filtra pra saber se ja foi curtido ou se ja esta sendo exibido
-      // ta passando direto pelo fiultro
-      if(!exist){
-        console.log("buscando id no array liked music\nresultado: ",exist);
-        tracks.push(response.data[index]);
-      }else{
-        console.log("LOG: Retirando musica repetida",response.data[index]);
+   setLoadingMusics(true)
+   window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      left: 0,
+      behavior: 'smooth'
+    });
+    try {
+      if(quantity == 7){
+        setLikedMusics([])
+        //musicas sem tratamento algum
+        tracks = []
+        //musicas a serem exibidas apos serem tratadas
+        setSimilarMusics([])
       }
-      index+=1;
+      //busca as top 30 musicas do radio do artista da musica pesquisa, nesse radio tem tanto musicas dele como tb semelhante em genero
+      const response = (await axios.get(BASE_URL+"/deezer/artist/"+music.artist.id+"/radio&order=RANKING&limit=30")).data;
+
+      let index = 0;
+      while(tracks.length < quantity){
+        //filtro
+        const exist = likedMusics.some(i => i === response.data[index].id) || similarMusics.some((music)=> music.id === response.data[index].id);
+
+        if(!exist){
+          console.log("LOG: buscando id no array liked music\nresultado: ",exist);
+          tracks.push(response.data[index]);
+        }else{
+          console.log("LOG: Retirando musica repetida (",response.data[index],")");
+        }
+        index+=1;
+      }
+
+      setSimilarMusics(prev=> [...prev,...tracks]);
+      setLoadingMusics(false);
+    } catch (error) {
+      showToast("error","Erro na busca de músicas similares");
+      console.error(error)
     }
-
-    setSimilarMusics(prev=> [...prev,...tracks]);
-
   }
 
   //atualiza a instancia do audioTag com base na mudanca de valor do currentTrack
   useEffect(()=>{
-    if(!currentTrack?.preview) return;
-    if(!audioRef.current){
-      //liga 
-      audioRef.current = new Audio(currentTrack.preview);
-      audioRef.current.volume = 0.2;//nots working
-      // n resolvi o b.o que ele n inicia direto a musica
-    }else{
+    if (!currentTrack?.preview) return;
+
+    if (!audioRef.current) {
+      const audio = new Audio();
+      audio.volume = 0.5; 
+      audio.src = currentTrack.preview;
+      audioRef.current = audio;
+    } else {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
       audioRef.current.src = currentTrack.preview;
+      audioRef.current.volume = 0.5; 
     }
   },[currentTrack?.id])
 
-  useEffect(()=>{
-    //toda vez que mudar a musica selecionada ele atualiza as musicas mostradas
-    console.log("MUSICA SELECIONADA NA PESQUISA:",selectedTrack);
-    console.log("SIMILAR MUSICS ARRAY",similarMusics);
+  // useEffect(()=>{
+  //   //toda vez que mudar a musica selecionada ele atualiza as musicas mostradas
+  //   console.log("MUSICA SELECIONADA NA PESQUISA:",selectedTrack);
+  //   console.log("SIMILAR MUSICS ARRAY",similarMusics);
 
-  },[selectedTrack,similarMusics])
+  // },[selectedTrack,similarMusics])
 
-  //me orienta para saber oq ta tocando e qual estar
+  //Tracking para saber oq ta tocando e qual estar
   useEffect(()=>{
     console.log("STATE ATUALIZADO:", isPlaying);
     console.log("TRACK ATUAL:", currentTrack);
@@ -170,11 +187,22 @@ export default function app() {
             )}
         </header>
         <main>
-          <Musics addedMusics={addedMusics} handleAddMusics={handleAddMusics} handleLikedMusics={handleLikedMusics} likedMusics={likedMusics}  handlePlaying={handlePlaying} isPlaying={isPlaying} musics={similarMusics}/>
+          <Musics loadingMusics={loadingMusics} addedMusics={addedMusics} handleAddMusics={handleAddMusics} handleLikedMusics={handleLikedMusics} likedMusics={likedMusics}  handlePlaying={handlePlaying} isPlaying={isPlaying} musics={similarMusics}/>
+          {loadingMusics&& similarMusics.length!=0&&(
+            <div>
+              <div className="loader">
+                <span className="bar"></span>
+                <span className="bar"></span>
+                <span className="bar"></span>
+              </div>
+            </div>
+          )}
         </main>
       </div>
     <MusicPlayerPopup audioRef={audioRef} handlePlaying={handlePlaying} currentTrack={currentTrack} />
     <ReportInput BASE_URL={BASE_URL} addedMusics={addedMusics}/>
+    <ToastContainer/>
     </div>
   );
+
 }

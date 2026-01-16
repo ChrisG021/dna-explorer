@@ -16,7 +16,7 @@ export default function ReportInput({BASE_URL,addedMusics}:reportProps){
                 email:email,
             })
             if(res.status==200){
-                //redireciona
+                window.location.href = '/report'
             }
             console.log(res)
         }catch(e){

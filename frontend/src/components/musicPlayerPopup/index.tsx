@@ -2,16 +2,17 @@ import { FaPause, FaPlay } from "react-icons/fa";
 import "./style.css";
 import { MdVolumeUp } from "react-icons/md";
 import { PlayProps } from "@/types";
-import { useRef, useState } from "react";
-
-
-
+import { useEffect, useRef, useState } from "react";
 
 export default function MusicPlayerPopup({handlePlaying,currentTrack,audioRef}: PlayProps) {
   if (!currentTrack) return null;
   const [currentTime,setCurrentTime] = useState<number>(0)
   const [duration,setDuration] = useState<number>(0)
-
+  const [volume,setVolume]  = useState(0.5)
+  useEffect(()=>{
+    if(audioRef.current==null)return;
+    audioRef.current.volume = volume;
+  },[volume])
   
   return (
     <div className="musicPlayerPopup text-white fixed flex flex-col gap-3 bg-black/20 backdrop-blur-sm p-4 rounded-2xl bottom-2 left-2 max-w-[40vw] lg:max-w-[25vw] w-full h-auto z-15">
@@ -70,8 +71,11 @@ export default function MusicPlayerPopup({handlePlaying,currentTrack,audioRef}: 
           </button>
         </div>
 
-        <div className="w-[50%] flex justify-end text-white text-xl ">
-          <MdVolumeUp />
+        <div className="w-[50%] relative flex justify-end items-center text-white  text-xl">
+          <MdVolumeUp/>
+          <div className="slider">
+            <input type="range" className="level"   min={0} max={1} step={0.010} value={volume} onChange={(e)=>setVolume(Number(e.target.value))} />
+          </div>
         </div>
       </div>
 
