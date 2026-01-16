@@ -8,7 +8,6 @@ interface cardProps{
     url:string,
 }
 export default function Projects(){
-    const [projectSelected,setProjectSelected] = useState<string>("");
     const CardProjects = ({title,description,tech,url}:cardProps)=>{
         return(
             <div className="flex  card flex-col bg-(--primary-color) text-(--accent-3) w-full h-full text-xs">
@@ -19,9 +18,9 @@ export default function Projects(){
                         <div className="flex flex-col gap-5">
                             <h3>{title}</h3>
                             <p>{description}</p>
-                            <div className="flex gap-1">
+                            <div className="flex gap-1 flex-wrap">
                             {tech.map((value,i)=>(
-                                <span key={i}>{value}</span>
+                                <span className="text-xs" key={i}>{value}</span>
                             ))}
                             </div>
                         </div>
@@ -47,10 +46,10 @@ export default function Projects(){
                         /></div>
                         <div style={{"--i":2}as any} className="item">
                         <CardProjects
-                        url="" 
-                        title="Seu clima" 
-                        description="Website informativo de clima"
-                        tech={["React","Vite",]}
+                        url="https://github.com/ChrisG021/dna-explorer" 
+                        title="Musical Explorer" 
+                        description="Webapp onde as pessoas podem explorar músicas e receber um relatório personalizado sobre o gosto musical delas."
+                        tech={["React","Next","Deezer Api","Tailwind","Python","Gemini AI"]}
                         /></div>
                         <div style={{"--i":3}as any} className="item">
                         <CardProjects
