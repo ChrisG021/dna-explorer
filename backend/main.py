@@ -59,25 +59,25 @@ def report(req:Request,data:dict = Body(...)):
 
     musics_text = json.dumps(musics)
     
-    # ai_response = client.models.generate_content(
-    #     model="gemini-2.5-flash",
-    #     contents=[{
-    #         "parts": [
-    #             {
-    #                 "text": f"""
-    #                     Tarefa:
-    #                     Com base no array de músicas abaixo, escreva em até 5 linhas sobre meu gosto musical e no Final quero uma palavra-chave que defina o gosot do usuário.Gere apenas um texto sem tags ou algum caractere extra
+    ai_response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=[{
+            "parts": [
+                {
+                    "text": f"""
+                        Tarefa:
+                        Com base no array de músicas abaixo, escreva em até 5 linhas sobre meu gosto musical e no Final quero uma palavra,essa palavra deve estar usar esse formato (DNA MUSICAL:<strong>...</strong>) que defina o gosto do usuário.Gere apenas um texto sem tags ou algum caractere extra
 
-    #                     Array de músicas:
-    #                     {musics_text}
-    #                     """
-    #             }
-    #         ]
-    #     }],
-    #     config={
-    #         "temperature":0.4,
-    #     }
-    # )
+                        Array de músicas:
+                        {musics_text}
+                        """
+                }
+            ]
+        }],
+        config={
+            "temperature":0.4,
+        }
+    )
      # vou trocar por um mock para n ficar gastando tokens {ai_response.candidates[0].content.parts[0].text}
     email_template = f"""
     <!DOCTYPE html>
@@ -111,9 +111,7 @@ def report(req:Request,data:dict = Body(...)):
           </h1>
 
           <p style="text-align:left; line-height:1.5;">
-            Seu gosto musical revela uma forte inclinação para sons intensos e emocionais,
-            com destaque para letras profundas e instrumentais marcantes.
-            Você tende a se conectar com músicas que expressam sentimentos fortes e identidade.
+            {ai_response.candidates[0].content.parts[0].text}
           </p>
           
           <h3 style="margin-top:30px;">🎵 Suas músicas</h3>
