@@ -53,7 +53,7 @@ def report(req:Request,data:dict = Body(...)):
     #array de {id,name,artist}
     musics = data.get("musics")
     li_musics = gerar_lista_musicas(musics)
-
+    email = data.get("email")
     musics_text = json.dumps(musics)
     
     ai_response = client.models.generate_content(
@@ -156,7 +156,7 @@ def report(req:Request,data:dict = Body(...)):
     """
     r = resend.Emails.send({
         "from":"onborarding@resend.dev",
-        "to":"christophegabriel30@gmail.com",
+        "to": email,
         "subject": "Seu Relatório Musical",
         "html":email_template,
     })
