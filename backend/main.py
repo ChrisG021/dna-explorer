@@ -31,10 +31,11 @@ def proxy_deezer(path:str,req:Request):
     return response.json()
 
 #its working
-config = dotenv_values(".env")
-client = genai.Client(api_key=config.get('API_KEY'))
-resend.api_key = config.get('RESEND_API_KEY')
-
+# config = dotenv_values(".env")
+# client = genai.Client(api_key=config.get('API_KEY'))
+# resend.api_key = config.get('RESEND_API_KEY')
+client = genai.Client(api_key=os.environ.get('API_KEY'))
+resend.api_key = os.environ.get('RESEND_API_KEY')
 
 #CHECK
 @app.post("/api/email")
