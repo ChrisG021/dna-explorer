@@ -58,6 +58,7 @@ export interface MusicAdd{
     id_music:number,
     name_music:string,
     artist:string,
+    img_url:string;
 }
 
 //props 
@@ -85,4 +86,9 @@ export interface PlayProps {
   handlePlaying: (id:number) => void;
   audioRef:React.RefObject<HTMLAudioElement|null>
   currentTrack?: any;
+}
+
+export interface reportProps{
+    BASE_URL:string
+    addedMusics:Array<MusicAdd>
 }

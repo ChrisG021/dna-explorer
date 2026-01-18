@@ -3,7 +3,6 @@ import { useState } from "react";
 import "./style.css";
 
 export default function ReportPage(){
-    console.log("\n\nLOG: musicas para relatorio")
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         //salva qual e  elemento base do movimento com base na classe tracking
         const card = e.currentTarget.querySelector(".tracking") as HTMLElement;

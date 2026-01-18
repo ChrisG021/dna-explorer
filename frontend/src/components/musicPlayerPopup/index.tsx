@@ -2,7 +2,8 @@ import { FaPause, FaPlay } from "react-icons/fa";
 import "./style.css";
 import { MdVolumeUp } from "react-icons/md";
 import { PlayProps } from "@/types";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { showToast } from "../toast";
 
 export default function MusicPlayerPopup({handlePlaying,currentTrack,audioRef}: PlayProps) {
   if (!currentTrack) return null;
@@ -15,7 +16,7 @@ export default function MusicPlayerPopup({handlePlaying,currentTrack,audioRef}: 
   },[volume])
   
   return (
-    <div className="musicPlayerPopup text-white fixed flex flex-col gap-3 bg-black/20 backdrop-blur-sm p-4 rounded-2xl bottom-2 left-2 max-w-[40vw] lg:max-w-[25vw] w-full h-auto z-15">
+    <div className="musicPlayerPopup text-white fixed flex flex-col gap-3 bg-black/20 backdrop-blur-sm p-4 rounded-2xl bottom-2 left-2 max-w-[35vw] lg:max-w-[25vw] w-full h-auto z-15">
       <audio 
       autoPlay
         ref={audioRef}
@@ -23,6 +24,10 @@ export default function MusicPlayerPopup({handlePlaying,currentTrack,audioRef}: 
           setCurrentTime(audioRef.current?.currentTime || 0);
         }}
         onLoadedMetadata={() => {
+          showToast("success","Música carregada");
+          if(audioRef.current==null)return;
+          //usa o valor armazenado para manter o volume do player para todas as musicas
+          audioRef.current.volume = volume;
           setDuration(audioRef.current?.duration || 0);
         }}
         onEnded={()=>{
@@ -72,9 +77,9 @@ export default function MusicPlayerPopup({handlePlaying,currentTrack,audioRef}: 
         </div>
 
         <div className="w-[50%] relative flex justify-end items-center text-white  text-xl">
-          <MdVolumeUp/>
+          <MdVolumeUp className="hidden md:block"/>
           <div className="slider">
-            <input type="range" className="level"   min={0} max={1} step={0.010} value={volume} onChange={(e)=>setVolume(Number(e.target.value))} />
+            <input type="range" className="level" min={0} max={1} step={0.010} value={volume} onChange={(e)=>setVolume(Number(e.target.value))} />
           </div>
         </div>
       </div>

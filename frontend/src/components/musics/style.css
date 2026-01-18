@@ -15,7 +15,7 @@
     padding: 10px;
     border-radius:10px;
     flex: 1 1 250px; /* 1 = grow, 1 = shrink, 200px = base mínima */
-    max-width: 300px;
+    max-width: 250px;
     height: 25vh;
     gap: 10px;
     box-sizing: border-box; 
@@ -23,6 +23,7 @@
 .music-cards .img-card{
     position: relative;
     width: 100%;
+    min-width: 50px;
     background-color: #fff;
     max-height: 75%;
     height: 100%;
@@ -40,11 +41,22 @@
     align-items: center; justify-content: space-between;
 }
 .description .text{
-    min-width: 100px;
+    min-width: 0;
+    max-width: 70%;
+    overflow: hidden;
+    flex: 1; /* 🔥 ISSO resolve o empurrão */
 }
+.description .text h3,
+.description .text p{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 
 .description .icon{
     display: flex;
+    flex: 1;
     flex-direction: row; 
     gap: 10px;
 }
@@ -60,7 +72,6 @@
 }
 
 .loader {
-  margin-top: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -97,7 +108,7 @@
 }
 @media (max-width:800px) {
     .music-cards .card-container{
-    flex: 0 1 200px; 
+    flex: 0 1 250px; 
 }
 }
 @media (max-width: 640px) {
@@ -122,6 +133,9 @@
         width: 80%;
         display: flex;
         align-items: center; justify-content: space-between;
+    }
+    .description .text{
+      max-width: 90px;
     }
 }
 @keyframes like-pop {

@@ -7,6 +7,8 @@ import { showToast } from "@/components/toast";
 import { MusicAdd, Track } from "@/types";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import { FaPlay } from "react-icons/fa";
+import { FaPause } from "react-icons/fa6";
 import { ToastContainer } from "react-toastify";
 export default function app() {
   const BASE_URL = "http://localhost:8000/api";
@@ -14,6 +16,7 @@ export default function app() {
   const [addedMusics,setAddedMusics] = useState<Array<MusicAdd>>([]);
   const [likedMusics,setLikedMusics] = useState<Array<number>>([]);
   const [loadingMusics,setLoadingMusics]  = useState(false);
+  const [selectedTrack, setSelectedTrack] = useState<Track>();
 
   const MAX = 7;
   let tracks:Track[] = [];
@@ -23,9 +26,15 @@ export default function app() {
 
   // utiliza id acima para pegar os dados da faixa que vai ser tocada
   const trackFound = similarMusics.find((m) => m.id === isPlaying.trackId);
-  const [selectedTrack, setSelectedTrack] = useState<Track>();
 
   //musica selecionada para o player
+
+  //ideia descartada
+  //   if(!trackFound){
+  //    currentTrack = selectedTrack && {...selectedTrack,isPlaying:isPlaying.playing};
+  // }else{
+  //    currentTrack = trackFound && { ...trackFound, isPlaying: isPlaying.playing };
+  // }
   const currentTrack = trackFound && { ...trackFound, isPlaying: isPlaying.playing };
   
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -56,7 +65,7 @@ export default function app() {
 
     if (!exist && !isFull) {
       //pega o conteudo que ja ta e so adc um novo e tb 
-      setAddedMusics(prev => [...prev, { id_music: music.id, name_music: music.title, artist:music.artist.name}]);
+      setAddedMusics(prev => [...prev, { id_music: music.id, name_music: music.title, artist:music.artist.name,img_url:music.album.cover_xl}]);
       handleLikedMusics(music.id,music);
       console.log("LOG:musica com id ("+music.id+") foi adicionado");       
         
@@ -66,7 +75,7 @@ export default function app() {
       setAddedMusics(prev => prev.filter(m => m.id_music !== music.id));
 
     } else if (isFull) {
-      console.warn("Limite máximo de músicas atingido");
+      showToast("warning","Limite máximo de 7 músicas ");
     }
   };
 
@@ -132,7 +141,7 @@ export default function app() {
   //atualiza a instancia do audioTag com base na mudanca de valor do currentTrack
   useEffect(()=>{
     if (!currentTrack?.preview) return;
-
+    showToast("info","Carregando a musica")
     if (!audioRef.current) {
       const audio = new Audio();
       audio.volume = 0.5; 
@@ -165,11 +174,29 @@ export default function app() {
       <div className="flex flex-col container lg:max-w-[70vw] w-full min-h-screen lg:p-20 p-10 gap-10">
         <header className="flex flex-col justify-center items-center gap-1">
             <SearchBar BASE_URL={BASE_URL} setSelectedTrack={setSelectedTrack} fetchSimilarMusics={fetchSimilarMusics}/>
+
             {selectedTrack&&(
               <div className="flex flex-row justify-center items-center gap-5 mt-5 md:max-w-[80%] w-full text-white ">
                 <div className="flex flex-row items-center gap-4 bg-gray-800/80 p-4 rounded-2xl w-full md:max-w-xl">
                   
-                  <div className="shrink-0 w-10 md:w-16 h-15 md:h-18 overflow-hidden rounded-lg bg-white">
+                  <div className="relative shrink-0 w-10 md:w-16 h-15 md:h-18 overflow-hidden rounded-lg bg-white">
+                    {/* <div
+                        onClick={() => handlePlaying(selectedTrack.id)}
+                        className="absolute  hover:bg-black/30 hover:backdrop-blur-xs
+                                transition-all ease-in
+                                w-full h-full flex justify-center items-center group"
+                    > */}
+                        {/* quando id for igual ao da musica , eu coloco pra tocar ou pausar */}
+                        {/* {isPlaying.trackId == selectedTrack.id && isPlaying.playing ? (
+                        <button className="hidden group-hover:block text-white text-2xl">
+                            <FaPause />
+                        </button>
+                        ) : (
+                        <button className="hidden group-hover:block text-white text-2xl">
+                            <FaPlay />
+                        </button>
+                        )}
+                    </div> */}
                     <img
                       src={selectedTrack?.album?.cover}
                       alt={selectedTrack?.title}
@@ -185,11 +212,12 @@ export default function app() {
                 </div>
               </div>
             )}
+
         </header>
         <main>
           <Musics loadingMusics={loadingMusics} addedMusics={addedMusics} handleAddMusics={handleAddMusics} handleLikedMusics={handleLikedMusics} likedMusics={likedMusics}  handlePlaying={handlePlaying} isPlaying={isPlaying} musics={similarMusics}/>
           {loadingMusics&& similarMusics.length!=0&&(
-            <div>
+            <div className="mt-7.5">
               <div className="loader">
                 <span className="bar"></span>
                 <span className="bar"></span>

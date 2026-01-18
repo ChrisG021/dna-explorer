@@ -24,7 +24,6 @@ def proxy_deezer(path:str,req:Request):
         Proxy universal para todas as rotas do deezer
     """
     DEEZER_URL = f"{BASE_URL}/{path}"
-    #capta todos os parametros e passa dps para o params como um dict
     params = dict(req.query_params)
 
     response = requests.get(DEEZER_URL,params=params)
@@ -36,7 +35,6 @@ config = dotenv_values(".env")
 client = genai.Client(api_key=config.get('API_KEY'))
 resend.api_key = config.get('RESEND_API_KEY')
 
-#nota mental: quando  for usa html mail , preferência por css inline
 
 #CHECK
 @app.post("/api/email")
@@ -51,11 +49,9 @@ def report(req:Request,data:dict = Body(...)):
           </li>
           """
       return items
-
-
     #array de {id,name,artist}
     musics = data.get("musics")
-    li_musicas = gerar_lista_musicas(musics)
+    li_musics = gerar_lista_musicas(musics)
 
     musics_text = json.dumps(musics)
     
@@ -66,7 +62,7 @@ def report(req:Request,data:dict = Body(...)):
                 {
                     "text": f"""
                         Tarefa:
-                        Com base no array de músicas abaixo, escreva em até 5 linhas sobre meu gosto musical e no Final quero uma palavra,essa palavra deve estar usar esse formato (DNA MUSICAL:<strong>...</strong>) que defina o gosto do usuário.Gere apenas um texto sem tags ou algum caractere extra
+                        Com base no array de músicas abaixo, escreva em até 5 linhas sobre meu gosto musical e no Final quero uma palavra que defina o gosto do usuário,essa palavra deve seguir esse template (<div style="font-weight: bold;">DNA MUSICAL <span style="font-weight: 500; background-color: #fff; color: #000; padding: 2px; border-radius: 5px;">...</span></div>) .Gere apenas um texto sem tags ou algum caractere extra
 
                         Array de músicas:
                         {musics_text}
@@ -115,15 +111,14 @@ def report(req:Request,data:dict = Body(...)):
           </p>
           
           <h3 style="margin-top:30px;">🎵 Suas músicas</h3>
-
           <ul style="padding-left:20px; line-height:1.6;">
-            {li_musicas}
+            {li_musics}
           </ul>
 
           <!-- BOTÃO -->
           <div style="text-align:center; margin:40px 0;">
             <a
-              href="https://seusite.com"
+              href="http://localhost:3000/"
               target="_blank"
               style="
                 display:inline-block;

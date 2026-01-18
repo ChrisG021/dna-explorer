@@ -41,26 +41,28 @@ export default function Musics({handlePlaying,isPlaying,musics,handleAddMusics,h
                         />
                     </div>
                     <div className="description">
-                        <div className="text min-w-0">
-                            <h3 className="truncate">{music.title}</h3>
-                            <p className="truncate">{music.artist.name}</p>
+                        <div className="text">
+                            <h3 className="">{music.title}</h3>
+                            <p className="">{music.artist.name}</p>
                         </div>
-                        <div className="icon">
-                            {/* verifica se ta dentro do array para so depois expor no ui */}
+                        <div className="">
+                            <div className="icon">
+                                {/* verifica se ta dentro do array para so depois expor no ui */}
 
-                            {addedMusics.some(m => m.id_music === music.id)?(
-                                <FaCirclePlus onClick={()=>handleAddMusics(music)} />
-                            ):(
-                               <CiCirclePlus onClick={()=>handleAddMusics(music)}/>
-                            )}
-                            
-                            <VscThumbsupFilled onClick={()=>handleLikedMusics(music.id,music)}
-                            className={
-                                likedMusics.some(likedId => likedId === music.id)
-                                ? "liked "
-                                : "no-liked"
-                            }
-                            />
+                                {addedMusics.some(m => m.id_music === music.id)?(
+                                    <FaCirclePlus onClick={()=>handleAddMusics(music)} />
+                                ):(
+                                <CiCirclePlus onClick={()=>handleAddMusics(music)}/>
+                                )}
+                                
+                                <VscThumbsupFilled onClick={()=>handleLikedMusics(music.id,music)}
+                                className={
+                                    likedMusics.some(likedId => likedId === music.id)
+                                    ? "liked "
+                                    : "no-liked"
+                                }
+                                />
+                            </div>
                         </div>
                     </div>
                 </li> 

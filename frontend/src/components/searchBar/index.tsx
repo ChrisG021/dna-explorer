@@ -56,10 +56,10 @@ export default function SearchBar({BASE_URL,setSelectedTrack,fetchSimilarMusics}
         {loading?(
           <div className="loading w-full absolute top-13 left-0 z-10 p-2.5 bg-(--background-primary) border border-white/10 results-container">
             <p>Buscando</p>
-            <div className="three-body">
-              <div className="three-body__dot"></div>
-              <div className="three-body__dot"></div>
-              <div className="three-body__dot"></div>
+            <div className="loader">
+              <span className="bar"></span>
+              <span className="bar"></span>
+              <span className="bar"></span>
             </div>
           </div>
         ):(
