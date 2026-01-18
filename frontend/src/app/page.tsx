@@ -11,7 +11,7 @@ import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa6";
 import { ToastContainer } from "react-toastify";
 export default function app() {
-  const BASE_URL = "http://localhost:8000/api";
+  const BASE_URL = " https://dna-explorer.onrender.com/api";
   const [similarMusics,setSimilarMusics] = useState<Track[]>([]);
   const [addedMusics,setAddedMusics] = useState<Array<MusicAdd>>([]);
   const [likedMusics,setLikedMusics] = useState<Array<number>>([]);
