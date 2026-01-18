@@ -3,7 +3,7 @@ import os
 from fastapi import FastAPI, Request, Body,status
 from fastapi.middleware.cors import CORSMiddleware
 from google import genai
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 import requests
 import resend
 
@@ -11,7 +11,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = ["http://localhost:3001","http://localhost:3000","https://dna-explorer-theta.vercel.app"],
+    allow_origins = ["http://localhost:3000","https://dna-explorer-theta.vercel.app"],
     allow_methods = ["*"],
     allow_headers = ["*"]
 )
@@ -31,9 +31,7 @@ def proxy_deezer(path:str,req:Request):
     return response.json()
 
 #its working
-# config = dotenv_values(".env")
-# client = genai.Client(api_key=config.get('API_KEY'))
-# resend.api_key = config.get('RESEND_API_KEY')
+load_dotenv()
 client = genai.Client(api_key=os.environ.get('API_KEY'))
 resend.api_key = os.environ.get('RESEND_API_KEY')
 
