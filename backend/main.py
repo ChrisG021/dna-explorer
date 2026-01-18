@@ -32,8 +32,11 @@ def proxy_deezer(path:str,req:Request):
 
 #its working
 config = dotenv_values(".env")
-client = genai.Client(api_key=config.get('API_KEY'))
-resend.api_key = config.get('RESEND_API_KEY')
+
+client = genai.Client(
+    api_key=os.getenv("GEMINI_API_KEY")
+)
+resend.api_key = os.getenv('RESEND_API_KEY')
 
 
 #CHECK
