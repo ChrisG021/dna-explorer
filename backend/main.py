@@ -118,7 +118,7 @@ def report(req:Request,data:dict = Body(...)):
           <!-- BOTÃO -->
           <div style="text-align:center; margin:40px 0;">
             <a
-              href="http://localhost:3000/"
+              href="https://dna-explorer-theta.vercel.app/"
               target="_blank"
               style="
                 display:inline-block;
