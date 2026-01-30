@@ -26,6 +26,9 @@ Essas informações são processadas pela IA para gerar um relatório único e p
 - Desenvolver um projeto forte para portfólio
 
 ---
+## Obs:
+- Para que funcione na sua maquina, insira as chaves de api do RESEND e GEMINI no arquivo .env
+
 
 ##  Licença
 
